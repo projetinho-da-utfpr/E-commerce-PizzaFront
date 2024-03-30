@@ -1,21 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;800&display=swap');
-.main {
-  display: grid;
-  grid-template-columns: 1fr 2fr; /* Define columns */
-}
 
-.user-account {
-  grid-area: 1 / 2; /* Position in grid */
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  transition: display 0.3s ease-in-out; /* Add transition */
-}
-
-.user-account.show {
-  display: grid; /* When revealed */
-}
 
 :root{
    --red:#e74c3c;
@@ -145,7 +129,7 @@ section{
 
 .user-account{
    position: fixed;
-   top:0; right:-110%;
+   /* top:0; right:-110%; */
    width: 100%;
    z-index: 1100;
    background-color: var(--white);
@@ -413,7 +397,14 @@ section{
       transform: translateX(-5rem);
    }
 }
+.home{
+   position: relative;
+   height: 100vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
 
+}
 .home-bg{
    background:url(../images/home-bg.jpg) no-repeat;
    background-size: cover;

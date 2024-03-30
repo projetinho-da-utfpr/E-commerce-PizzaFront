@@ -29,16 +29,16 @@ function Pedido() {
             </select>
           </div>
           <div className="inputBox">
-            <span>Address Line 01:</span>
-            <input type="text" name="flat" className="box" required placeholder="Nome do bairro" maxLength="50" />
+            <span>Nome do bairro:</span>
+            <input type="text" name="flat" className="box" required placeholder="Digite o nome do bairro" maxLength="50" />
           </div>
           <div className="inputBox">
-            <span>Address Line 02:</span>
-            <input type="text" name="street" className="box" required placeholder="Nome da rua" maxLength="50" />
+            <span>Nome da rua:</span>
+            <input type="text" name="street" className="box" required placeholder="Digite o nome da rua" maxLength="50" />
           </div>
           <div className="inputBox">
-            <span>Pin Code:</span>
-            <input type="number" name="pin_code" className="box" required placeholder="CEP" min="0" />
+            <span>CEP:</span>
+            <input type="number" name="pin_code" className="box" required placeholder="Digite o CEP" min="0" />
           </div>
         </div>
 

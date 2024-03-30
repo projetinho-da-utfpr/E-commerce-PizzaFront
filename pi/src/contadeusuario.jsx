@@ -1,95 +1,115 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-export default function Usuario() {
+export default function Usuario({ handleCloseModal }) {
   const [showLoginForm, setShowLoginForm] = useState(true); // Initially show login form
+
+  const [pizzas, setPizzas] = useState([]);
 
   const handleToggleForm = () => {
     setShowLoginForm(!showLoginForm); // Toggle between login and registration forms
   };
 
+  const handleCloseAccount = () => {
+    handleCloseModal();
+  };
+
+  // const handlePizzas = async () => {
+  //   try {
+  //     const response = await axios.get("http://localhost:5173/cardapio");
+  //     setPizzas(response.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const handleRegister = () => {};
+
+  const handleLogin = () => {};
+
+  const isLoggedIn = false;
+
   return (
     <div className="user-account">
-      <section className="grid-area-1 / 2; grid-row-start: 1; grid-row-end: 3; display: none;">
+      <section>
         <div id="close-account" onClick={handleCloseAccount}>
-          <span>close</span>
+          {isLoggedIn ? <p>Bem vindo @usuario</p> : null}
+          <span>Fechar</span>
         </div>
 
-        <div className="user">
-          {isLoggedIn ? (
-            <p>Welcome, logged-in user!</p>
-          ) : (
-            <div>
-              {showLoginForm ? (
-                <>
-                  <h3>Login Now</h3>
-                  <form action="" method="post" onSubmit={handleLogin}>
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      className="box"
-                      placeholder="enter your email"
-                      maxLength="50"
-                    />
-                    <input
-                      type="password"
-                      name="pass"
-                      required
-                      className="box"
-                      placeholder="enter your password"
-                      maxLength="20"
-                    />
-                    <input type="submit" value="login now" name="login" className="btn" />
-                  </form>
-                  <button onClick={handleToggleForm}>Register Now</button>
-                </>
-              ) : (
-                <>
-                  <h3>Register Now</h3>
-                  <form action="" method="post" onSubmit={handleRegister}>
-                    <input
-                      type="text"
-                      name="name"
-                      required
-                      className="box"
-                      placeholder="enter your name"
-                      maxLength="20"
-                    />
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      className="box"
-                      placeholder="enter your email"
-                      maxLength="50"
-                    />
-                    <input
-                      type="password"
-                      name="pass"
-                      required
-                      className="box"
-                      placeholder="enter your password"
-                      maxLength="20"
-                    />
-                    <input
-                      type="password"
-                      name="cpass"
-                      required
-                      className="box"
-                      placeholder="confirm your password"
-                      maxLength="20"
-                    />
-                    <input type="submit" value="register now" name="register" className="btn" />
-                  </form>
-                  <button onClick={handleToggleForm}>Login Now</button>
-                </>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* ... rest of the component's content ... */}
+        {isLoggedIn ? null : (
+          <div className="user">
+            
+            {showLoginForm ? (
+              <div className="flex">
+                <form action="" method="post" onSubmit={handleLogin}>
+                  <h3>Logar agora</h3>
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    className="box"
+                    placeholder="Digite seu email"
+                    maxLength="50"
+                  />
+                  <input
+                    type="password"
+                    name="pass"
+                    required
+                    className="box"
+                    placeholder="Digite sua senha"
+                    maxLength="20"
+                  />
+                  <input type="submit" value="Logar agora" name="login" className="btn" />
+                </form>
+                <button onClick={handleToggleForm}>Não tem conta? Registre agora</button>
+              </div>
+            ) : (
+              <div className="flex">
+                <form action="" method="post" onSubmit={handleRegister}>
+                  <h3>Registrar-se</h3>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    className="box"
+                    placeholder="Digite seu nome"
+                    maxLength="20"
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    className="box"
+                    placeholder="Digite seu emai"
+                    maxLength="50"
+                  />
+                  <input
+                    type="password"
+                    name="pass"
+                    required
+                    className="box"
+                    placeholder="Escolha sua senha"
+                    maxLength="20"
+                  />
+                  <input
+                    type="password"
+                    name="cpass"
+                    required
+                    className="box"
+                    placeholder="Confirme sua senha"
+                    maxLength="20"
+                  />
+                  <input type="submit" value="Registre agora" name="register" className="btn" />
+                </form>
+                <button onClick={handleToggleForm}>Fazer login</button>
+              </div>
+            )}
+          </div>
+        )}
       </section>
     </div>
   );
 }
+
+
+
