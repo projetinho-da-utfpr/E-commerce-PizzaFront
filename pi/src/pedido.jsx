@@ -1,0 +1,51 @@
+import React from 'react';
+
+function Pedido() {
+  return (
+    <section id="order" className="order">
+      <h1 className="heading">Peça gora</h1>
+
+      <form action="" method="post">
+        <div className="display-orders">
+
+        </div>
+
+        <div className="flex">
+          <div className="inputBox">
+            <span>Seu nome:</span>
+            <input type="text" name="name" className="box" required placeholder="Digite seu nome" maxLength="20" />
+          </div>
+          <div className="inputBox">
+            <span>Seu número:</span>
+            <input type="number" name="number" className="box" required placeholder="Digite seu número" min="0" />
+          </div>
+          <div className="inputBox">
+            <span>Modo de pagamento:</span>
+            <select name="method" className="box">
+              <option value="cash on delivery">Pagar na hora</option>
+              <option value="credit card">Cartão de crédito</option>
+              <option value="paytm">Cartão de débito</option>
+              <option value="paypal">Pix</option>
+            </select>
+          </div>
+          <div className="inputBox">
+            <span>Address Line 01:</span>
+            <input type="text" name="flat" className="box" required placeholder="Nome do bairro" maxLength="50" />
+          </div>
+          <div className="inputBox">
+            <span>Address Line 02:</span>
+            <input type="text" name="street" className="box" required placeholder="Nome da rua" maxLength="50" />
+          </div>
+          <div className="inputBox">
+            <span>Pin Code:</span>
+            <input type="number" name="pin_code" className="box" required placeholder="CEP" min="0" />
+          </div>
+        </div>
+
+        <input type="submit" value="Pedir agora" className="btn" name="order" />
+      </form>
+    </section>
+  );
+}
+
+export default Pedido;
