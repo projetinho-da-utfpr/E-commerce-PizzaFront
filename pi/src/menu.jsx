@@ -9,10 +9,10 @@ function Menu({ slides, currentSlide, handlePrev, handleNext }) {
                 className={`slide ${currentSlide === index ? 'active' : ''}`}
               >
                 <div className="image">
-                  <img src={slide.image} alt={slide.title} />
+                  <img src={slide.imagem} alt={slide.nome} />
                 </div>
                 <div className="content">
-                  <h3>{slide.title}</h3>
+                  <h3>{slide.nome}</h3>
                   <div className="fas fa-angle-left" onClick={handlePrev} />
                   <div className="fas fa-angle-right" onClick={handleNext} />
                 </div>
