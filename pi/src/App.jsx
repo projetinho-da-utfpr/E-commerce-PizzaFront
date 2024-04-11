@@ -7,7 +7,7 @@ import Perguntas from "./perguntas";
 import Usuario from "./contadeusuario";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import Contatos from "./contato";
 
 export default function App() {
   // *** JUNTAR COM O BANCO DE DADOS *** //
@@ -130,7 +130,8 @@ export default function App() {
       <Pedido />
       ### PERGUNTAS E RESPOSTAS ###
       <Perguntas />
-      );
+      ### CONTATO ###
+      <Contatos />
     </>
   );
 }
