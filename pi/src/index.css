@@ -58,7 +58,7 @@ section{
    color:var(--black);
    text-transform: uppercase;
 }
-
+ 
 .btn{
    display: block;
    width: 100%;
@@ -567,12 +567,34 @@ section{
 }
 
 .menu .box-container .box form .qty {
-   width: 100%; 
+   flex: 1;
+   width: 24%; 
    border: var(--border);
    padding: 1rem;
    border-radius: .5rem;
    font-size: 1.8rem;
    color: var(--black);
+   margin-right: 1rem;
+}
+
+.menu .box-container .box form .qty-btn-container {
+   display: flex;
+   align-items: center; 
+ }
+
+.menu .btn{
+   display: block;
+   width: 74%;
+   margin-top: rem;
+   margin-left: auto;
+   border-radius: .5rem;
+   padding:1rem 2rem;
+   font-size: 2rem;
+   color:var(--white);
+   background-color: var(--red);
+   cursor: pointer;
+   text-transform: capitalize;
+   text-align: center;
 }
 
 .expand-button, .close-button {
