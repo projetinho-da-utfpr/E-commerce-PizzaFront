@@ -33,7 +33,7 @@ function Cardapio({ menuItems }) {
             <img src={menuItem.image} alt={menuItem.name} />
             <div className="name">{menuItem.name}</div>
             <form action="" method="post">
-            <div className="qty-btn-container"> 
+            <div className="qty-btn-container">   
               <input type="number" min="1" max="100" value="0" className="qty" name="qty" />
               <input type="submit" value="Adicionar ao carrinho" name="add_to_cart" className="btn" />
               </div>
