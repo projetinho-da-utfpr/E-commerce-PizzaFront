@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function Pedido() {
   return (
@@ -6,18 +6,30 @@ function Pedido() {
       <h1 className="heading">Peça gora</h1>
 
       <form action="" method="post">
-        <div className="display-orders">
-
-        </div>
+        <div className="display-orders"></div>
 
         <div className="flex">
           <div className="inputBox">
             <span>Seu nome:</span>
-            <input type="text" name="name" className="box" required placeholder="Digite seu nome" maxLength="20" />
+            <input
+              type="text"
+              name="name"
+              className="box"
+              required
+              placeholder="Digite seu nome"
+              maxLength="20"
+            />
           </div>
           <div className="inputBox">
             <span>Seu número:</span>
-            <input type="number" name="number" className="box" required placeholder="Digite seu número" min="0" />
+            <input
+              type="number"
+              name="number"
+              className="box"
+              required
+              placeholder="Digite seu número"
+              min="0"
+            />
           </div>
           <div className="inputBox">
             <span>Modo de pagamento:</span>
@@ -30,15 +42,36 @@ function Pedido() {
           </div>
           <div className="inputBox">
             <span>Nome do bairro:</span>
-            <input type="text" name="flat" className="box" required placeholder="Digite o nome do bairro" maxLength="50" />
+            <input
+              type="text"
+              name="flat"
+              className="box"
+              required
+              placeholder="Digite o nome do bairro"
+              maxLength="50"
+            />
           </div>
           <div className="inputBox">
             <span>Nome da rua:</span>
-            <input type="text" name="street" className="box" required placeholder="Digite o nome da rua" maxLength="50" />
+            <input
+              type="text"
+              name="street"
+              className="box"
+              required
+              placeholder="Digite o nome da rua"
+              maxLength="50"
+            />
           </div>
           <div className="inputBox">
             <span>CEP:</span>
-            <input type="number" name="pin_code" className="box" required placeholder="Digite o CEP" min="0" />
+            <input
+              type="number"
+              name="pin_code"
+              className="box"
+              required
+              placeholder="Digite o CEP"
+              min="0"
+            />
           </div>
         </div>
 

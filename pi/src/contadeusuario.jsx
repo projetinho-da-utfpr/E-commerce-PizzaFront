@@ -13,7 +13,7 @@ export default function Usuario({ handleCloseModal }) {
     handleCloseModal();
   };
 
-// EXEMPLO DE COMO PEGAR O BANCO DE DADOS
+  // EXEMPLO DE COMO PEGAR O BANCO DE DADOS
   // const handlePizzas = async () => {
   //   try {
   //     const response = await axios.get("http://localhost:5173/cardapio");
@@ -39,7 +39,6 @@ export default function Usuario({ handleCloseModal }) {
 
         {isLoggedIn ? null : (
           <div className="user">
-            
             {showLoginForm ? (
               <div className="flex">
                 <form action="" method="post" onSubmit={handleLogin}>
@@ -60,9 +59,16 @@ export default function Usuario({ handleCloseModal }) {
                     placeholder="Digite sua senha"
                     maxLength="20"
                   />
-                  <input type="submit" value="Logar agora" name="login" className="btn" />
+                  <input
+                    type="submit"
+                    value="Logar agora"
+                    name="login"
+                    className="btn"
+                  />
                 </form>
-                <button onClick={handleToggleForm}>Não tem conta? Registre agora</button>
+                <button onClick={handleToggleForm}>
+                  Não tem conta? Registre agora
+                </button>
               </div>
             ) : (
               <div className="flex">
@@ -100,7 +106,12 @@ export default function Usuario({ handleCloseModal }) {
                     placeholder="Confirme sua senha"
                     maxLength="20"
                   />
-                  <input type="submit" value="Registre agora" name="register" className="btn" />
+                  <input
+                    type="submit"
+                    value="Registre agora"
+                    name="register"
+                    className="btn"
+                  />
                 </form>
                 <button onClick={handleToggleForm}>Fazer login</button>
               </div>
@@ -111,6 +122,3 @@ export default function Usuario({ handleCloseModal }) {
     </div>
   );
 }
-
-
-

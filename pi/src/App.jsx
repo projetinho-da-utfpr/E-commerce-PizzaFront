@@ -1,13 +1,13 @@
-
 import Pedido from "./pedido";
 import Sobrenos from "./sobrenos";
 import Cardapio from "./cardapio";
 import Menu from "./menu";
 import Perguntas from "./perguntas";
 import Usuario from "./contadeusuario";
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Contatos from "./contato";
+import Carrinho from "./carrinho";
 
 export default function App() {
   // *** JUNTAR COM O BANCO DE DADOS *** //
@@ -15,35 +15,39 @@ export default function App() {
   const [pizzas, setPizzas] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
   useEffect(() => {
-    axios.get('http://localhost:8000/pizzas')
+    axios
+      .get("http://localhost:8000/pizzas")
       .then((response) => {
         setPizzas(response.data);
-        setMenuItems(response.data.map((pizza, index) => ({
-          id: index + 1,
-          image: pizza.imagem,
-          name: pizza.nome,
-          price: pizza.preco,
-        })));
+        setMenuItems(
+          response.data.map((pizza, index) => ({
+            id: index + 1,
+            image: pizza.imagem,
+            name: pizza.nome,
+            price: pizza.preco,
+          }))
+        );
       })
       .catch((error) => {
-        console.error('Error fetching pizzas:', error);
+        console.error("Error fetching pizzas:", error);
       });
   }, []);
 
   const [usuarios, setUsuarios] = useState([]);
   useEffect(() => {
-    axios.get('http://localhost:8000/usuario')
+    axios
+      .get("http://localhost:8000/usuario")
       .then((response) => {
         setUsuarios(response.data);
       })
       .catch((error) => {
-        console.error('Error fetching usuarios:', error);
+        console.error("Error fetching usuarios:", error);
       });
   }, []);
 
   // SLIDES DAS PIZZAS
   const slides = pizzas.map((pizza) => ({
-    imagem : pizza.imagem,
+    imagem: pizza.imagem,
     nome: pizza.nome,
   }));
   const handleNext = () => {
@@ -58,30 +62,21 @@ export default function App() {
     );
   };
 
-
-  
-  // CARDÁPIO DAS PIZZAS
-  // const [menuItems, setMenuItems] = useState([
-  //   {
-  //     id: 1,
-  //     image: "images/pizza-1.jpg",
-  //     name: "Pizza de lá ele receba",
-  //     price: 2,
-  //   },
-  //   {
-  //     id: 2,
-  //     image: "images/pizza-2.jpg",
-  //     name: "Pizza de devolva",
-  //     price: 4,
-  //   },
-  // ]);
-
-
   const [showUsuario, setShowUsuario] = useState(false);
+
+  const [showCart, setShowCart] = useState(false);
+
+  const handleCartClick = () => {
+    setShowCart(true);
+  };
+
+  const handleCloseCart = () => {
+    setShowCart(false);
+  };
 
   return (
     <>
-       ### CABEÇALHO ###
+      ### CABEÇALHO ###
       <header className="header">
         <section className="flex">
           <a href="#home" className="logo">
@@ -102,7 +97,11 @@ export default function App() {
               onClick={() => setShowUsuario(!showUsuario)}
             ></div>
             <div id="order-btn" className="fas fa-box"></div>
-            <div id="cart-btn" className="fas fa-shopping-cart">
+            <div
+              id="cart-btn"
+              className="fas fa-shopping-cart"
+              onClick={handleCartClick}
+            >
               <span>(9999)</span>
             </div>
           </div>
@@ -111,10 +110,7 @@ export default function App() {
       {showUsuario && (
         <Usuario handleCloseModal={() => setShowUsuario(false)} />
       )}
-      {/* {showPedido && (
-        **componente do pedido**
-      )} */}
-      
+      {showCart && <Carrinho handleCloseCart={handleCloseCart} />}
       ### HOME COM AS PIZZAS ###
       <Menu
         slides={slides}

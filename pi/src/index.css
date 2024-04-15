@@ -291,7 +291,7 @@ section{
 
 .shopping-cart{
    position: fixed;
-   top:0; right:-110%;
+   left: 79%;
    width: 35rem;
    z-index: 1100;
    background-color: var(--light-bg);
