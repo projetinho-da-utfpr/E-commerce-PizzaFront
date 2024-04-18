@@ -82,7 +82,6 @@
  .size-buttons {
    display: flex; 
    justify-content: space-between; 
-   
    margin-bottom: 20px;
    margin: 10px;
  }
@@ -106,9 +105,16 @@
    background-color: #e0e0e0;
  }
  
+ .qty {
+   width: 80px;
+   height: 50px;
+   border: 1px solid #ccc;
+   border-radius: 4px;
+   font-size: 24px;
+   margin-right: 0px;
+   padding-left: 5px;
+ }
  
- 
-
 :root{
    --red:#e74c3c;
    --black:#333;

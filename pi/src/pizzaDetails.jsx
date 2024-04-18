@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
 
-function PizzaDetails({ pizza }) {
+function PizzaDetails({ pizza, handleAddToCart }) {
   const [isOpen, setIsOpen] = useState(true);
   const [selectedSize, setSelectedSize] = useState('Pequena'); // Estado para o tamanho selecionado
+  const [quantity, setQuantity] = useState(1); // Estado para a quantidade
+  const [confirmation, setConfirmation] = useState(''); // Estado para a confirmação
 
   const handleSizeClick = (size) => {
     setSelectedSize(size);
   };
 
-  const handleToggleDetails = () => {
-    setIsOpen(!isOpen);
+  const handleQuantityChange = (event) => {
+    setQuantity(event.target.value);
+  }
+
+  const handleAddPizzaToCart = () => {
+    handleAddToCart(pizza, quantity);
+    setConfirmation(`Você adicionou ${quantity} pizza(s) ${pizza.name} de tamanho ${selectedSize} ao carrinho.`);
   }
 
   return (
@@ -52,9 +59,19 @@ function PizzaDetails({ pizza }) {
         <h1>{pizza.descricao}</h1>
       </div>
 
-      <button>Adicionar ao Carrinho</button>
+      <button onClick={handleAddPizzaToCart}>Adicionar ao Carrinho</button>
 
+      <input
+        type="number"
+        min="0"
+        max="100"
+        value={quantity}
+        onChange={handleQuantityChange}
+        className="qty"
+        name="qty"
+      />
 
+      {confirmation && <p>{confirmation}</p>}
     </section>
   );
 }

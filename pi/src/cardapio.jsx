@@ -1,11 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
+import PizzaDetails from './pizzaDetails';
 
-function Cardapio({ menuItems }) {
+function Cardapio({ menuItems, pizzaDetails }) {
   const [showAllItems, setShowAllItems] = useState(false);
   const boxContainerRef = useRef(null);
-  const [cart, setCart] = useState([]); // Estado para armazenar itens do carrinho
-
   const firstRowItems = menuItems.slice(0, 3);
+
+  const [selectedPizza, setSelectedPizza] = useState(null);
+
+  const handlePizzaClick = (pizza) => {
+    setSelectedPizza(pizza);
+  };
+  
 
   const toggleMenu = () => {
     setShowAllItems(!showAllItems);
@@ -15,13 +21,6 @@ function Cardapio({ menuItems }) {
     setShowAllItems(false);
     const menuElement = document.getElementById("menu");
     menuElement.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const handleAddToCart = (menuItem, quantity) => {
-    // Função para adicionar item ao carrinho
-    if (quantity > 0) {
-      setCart([...cart, { ...menuItem, quantity }]);
-    }
   };
 
   useEffect(() => {
@@ -36,15 +35,36 @@ function Cardapio({ menuItems }) {
 
   return (
     <section id="menu" className={`menu ${showAllItems ? "expanded" : ""}`}>
+      {selectedPizza && <PizzaDetails pizza={selectedPizza} />}
       <h1 className="heading">Cardápio</h1>
 
       <div ref={boxContainerRef} className="box-container">
         {firstRowItems.map((menuItem) => (
-          <MenuItem menuItem={menuItem} handleAddToCart={handleAddToCart} />
+          <div key={menuItem.id} className="box" onClick={() => handlePizzaClick(menuItem)}>
+            <div className="price">
+              R$<span>{menuItem.price}</span>
+            </div>
+            <img src={menuItem.image} alt={menuItem.name} style={{objectFit: 'cover', height: '350px', width: '130%'}} />
+            <div className="name">{menuItem.name}</div>
+            <form action="" method="post">
+              <div className="qty-btn-container">
+              </div>
+            </form>
+          </div>
         ))}
         {showAllItems &&
           menuItems.slice(3).map((menuItem) => (
-            <MenuItem menuItem={menuItem} handleAddToCart={handleAddToCart} />
+            <div key={menuItem.id} className="box">
+              <div className="price">
+                R$<span>{menuItem.price}</span>
+              </div>
+              <img src={menuItem.image} alt={menuItem.name} style={{objectFit: 'cover', height: '350px', width: '130%'}} />
+              <div className="name">{menuItem.name}</div>
+              <form action="" method="post">
+                <div className="qty-btn-container">
+                </div>
+              </form>
+            </div>
           ))}
       </div>
 
@@ -57,56 +77,7 @@ function Cardapio({ menuItems }) {
           <i className="fa fa-angle-up"></i>
         </button>
       )}
-
-      {/* Exibir o carrinho */}
-      <div>
-        <h2>Carrinho de Compras</h2>
-        <ul>
-          {cart.map((item, index) => (
-            <li key={index}>
-              {item.name} - Quantidade: {item.quantity}
-            </li>
-          ))}
-        </ul>
-      </div>
     </section>
-  );
-}
-
-function MenuItem({ menuItem, handleAddToCart }) {
-  const [quantity, setQuantity] = useState(0);
-
-  return (
-    <div key={menuItem.id} className="box">
-      <div className="price">
-        R$<span>{menuItem.price}</span>
-      </div>
-      <img src={menuItem.image} alt={menuItem.name} />
-      <div className="name">{menuItem.name}</div>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleAddToCart(menuItem, quantity);
-        }}
-      >
-        <div className="qty-btn-container">
-          <input
-            type="number"
-            min="0"
-            value={quantity}
-            onChange={(e) => setQuantity(parseInt(e.target.value))}
-            className="qty"
-            name="qty"
-          />
-          <input
-            type="submit"
-            value="Adicionar ao carrinho"
-            name="add_to_cart"
-            className="btn"
-          />
-        </div>
-      </form>
-    </div>
   );
 }
 
