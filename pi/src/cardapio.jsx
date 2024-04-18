@@ -1,9 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
+import PizzaDetails from './pizzaDetails';
 
-function Cardapio({ menuItems }) {
+function Cardapio({ menuItems, pizzaDetails }) {
   const [showAllItems, setShowAllItems] = useState(false);
   const boxContainerRef = useRef(null);
   const firstRowItems = menuItems.slice(0, 3);
+
+  const [selectedPizza, setSelectedPizza] = useState(null);
+
+  const handlePizzaClick = (pizza) => {
+    setSelectedPizza(pizza);
+  };
+  
 
   const toggleMenu = () => {
     setShowAllItems(!showAllItems);
@@ -27,11 +35,12 @@ function Cardapio({ menuItems }) {
 
   return (
     <section id="menu" className={`menu ${showAllItems ? "expanded" : ""}`}>
+      {selectedPizza && <PizzaDetails pizza={selectedPizza} />}
       <h1 className="heading">Cardápio</h1>
 
       <div ref={boxContainerRef} className="box-container">
         {firstRowItems.map((menuItem) => (
-          <div key={menuItem.id} className="box">
+          <div key={menuItem.id} className="box" onClick={() => handlePizzaClick(menuItem)}>
             <div className="price">
               R$<span>{menuItem.price}</span>
             </div>

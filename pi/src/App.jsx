@@ -9,6 +9,7 @@ import axios from "axios";
 import Contatos from "./contato";
 import Carrinho from "./carrinho";
 
+
 export default function App() {
   // *** JUNTAR COM O BANCO DE DADOS *** //
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -25,6 +26,7 @@ export default function App() {
             image: pizza.imagem,
             name: pizza.nome,
             price: pizza.preco,
+            descricao: pizza.descricao,
           }))
         );
       })
@@ -76,7 +78,7 @@ export default function App() {
 
   return (
     <>
-      ### CABEÇALHO ###
+      {/* ### CABEÇALHO ### */}
       <header className="header">
         <section className="flex">
           <a href="#home" className="logo">
@@ -111,22 +113,22 @@ export default function App() {
         <Usuario handleCloseModal={() => setShowUsuario(false)} />
       )}
       {showCart && <Carrinho handleCloseCart={handleCloseCart} />}
-      ### HOME COM AS PIZZAS ###
+      {/* ### HOME COM AS PIZZAS ### */}
       <Menu
         slides={slides}
         currentSlide={currentSlide}
         handlePrev={handlePrev}
         handleNext={handleNext}
       />
-      ### SOBRE NÓS ###
+      {/* ### SOBRE NÓS ### */}
       <Sobrenos />
-      ### CARDÁPIO ###
-      <Cardapio menuItems={menuItems} />
-      ### PEDIDO ###
+      {/* ### CARDÁPIO ### */}
+      <Cardapio menuItems={menuItems}/>
+      {/* ### PEDIDO ### */}
       <Pedido />
-      ### PERGUNTAS E RESPOSTAS ###
+      {/* ### PERGUNTAS E RESPOSTAS ### */}
       <Perguntas />
-      ### CONTATO ###
+      {/* ### CONTATO ### */}
       <Contatos />
     </>
   );

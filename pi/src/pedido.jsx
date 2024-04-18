@@ -3,7 +3,7 @@ import React from "react";
 function Pedido() {
   return (
     <section id="order" className="order">
-      <h1 className="heading">Peça gora</h1>
+      <h1 className="heading">Peça Agora</h1>
 
       <form action="" method="post">
         <div className="display-orders"></div>
