@@ -1,57 +1,26 @@
+import React, { useContext, useState } from "react";
 import Pedido from "./componentes/pedido";
 import Sobrenos from "./componentes/sobrenos";
 import Cardapio from "./componentes/cardapio";
 import Menu from "./componentes/menu";
 import Perguntas from "./componentes/perguntas";
-import Usuario from "./componentes/contadeusuario";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Contatos from "./componentes/contato";
-import Carrinho from "./componentes/carrinho";
 import Navbar from "./componentes/navbar";
+import { PizzaContext } from "./context/pizzascontext"; 
 
 export default function App() {
+  const { pizzas } = useContext(PizzaContext); 
+
   // *** JUNTAR COM O BANCO DE DADOS *** //
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [pizzas, setPizzas] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
-  useEffect(() => {
-    axios
-      .get("http://localhost:8000/pizzas")
-      .then((response) => {
-        setPizzas(response.data);
-        setMenuItems(
-          response.data.map((pizza, index) => ({
-            id: index + 1,
-            image: pizza.imagem,
-            name: pizza.nome,
-            price: pizza.preco,
-            descricao: pizza.descricao,
-          }))
-        );
-      })
-      .catch((error) => {
-        console.error("Error fetching pizzas:", error);
-      });
-  }, []);
-
-  const [usuarios, setUsuarios] = useState([]);
-  useEffect(() => {
-    axios
-      .get("http://localhost:8000/usuario")
-      .then((response) => {
-        setUsuarios(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching usuarios:", error);
-      });
-  }, []);
 
   // SLIDES DAS PIZZAS
   const slides = pizzas.map((pizza) => ({
     imagem: pizza.imagem,
     nome: pizza.nome,
   }));
+
   const handleNext = () => {
     setCurrentSlide((prevSlide) =>
       prevSlide === slides.length - 1 ? 0 : prevSlide + 1
@@ -64,9 +33,6 @@ export default function App() {
     );
   };
 
-  const [showUsuario, setShowUsuario] = useState(false);
-
-  const [showCart, setShowCart] = useState(false);
 
   const handleCartClick = () => {
     setShowCart(true);
