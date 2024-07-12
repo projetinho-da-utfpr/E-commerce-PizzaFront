@@ -13,13 +13,19 @@ export default function App() {
 
   // *** JUNTAR COM O BANCO DE DADOS *** //
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [menuItems, setMenuItems] = useState([]);
 
   // SLIDES DAS PIZZAS
   const slides = pizzas.map((pizza) => ({
     imagem: pizza.imagem,
     nome: pizza.nome,
   }));
+
+  const produtos = pizzas.map((pizza) => ({
+    name: pizza.nome,
+    price: pizza.preco,
+    image: pizza.imagem,
+  }));
+
 
   const handleNext = () => {
     setCurrentSlide((prevSlide) =>
@@ -58,7 +64,7 @@ export default function App() {
       {/* ### SOBRE NÓS ### */}
       <Sobrenos />
       {/* ### CARDÁPIO ### */}
-      <Cardapio menuItems={menuItems} />
+      <Cardapio menuItems={produtos} />
       {/* ### PEDIDO ### */}
       <Pedido />
       {/* ### PERGUNTAS E RESPOSTAS ### */}

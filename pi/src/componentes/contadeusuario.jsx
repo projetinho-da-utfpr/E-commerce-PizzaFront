@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 export default function Usuario({ handleCloseModal }) {
   const [showLoginForm, setShowLoginForm] = useState(true);
 
-  const [pizzas, setPizzas] = useState([]);
 
   const handleToggleForm = () => {
     setShowLoginForm(!showLoginForm);
@@ -13,15 +12,7 @@ export default function Usuario({ handleCloseModal }) {
     handleCloseModal();
   };
 
-  // EXEMPLO DE COMO PEGAR O BANCO DE DADOS
-  // const handlePizzas = async () => {
-  //   try {
-  //     const response = await axios.get("http://localhost:5173/cardapio");
-  //     setPizzas(response.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+
 
   const handleRegister = () => {};
 

@@ -1,15 +1,9 @@
 import React, { useState } from "react";
 
-function Carrinho({ handleCloseCart }) {
-  const [cartItems, setCartItems] = useState([]);
+function Carrinho({ handleCloseCart, cartItems}) {
 
-  const handleQuantityChange = (itemId, newQuantity) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === itemId ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
+
+
 
   return (
     <div className="shopping-cart">
