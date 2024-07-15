@@ -952,7 +952,11 @@ section {
   border-radius: 5px;
 }
 
-/* media queries  */
+.img-carrinho{
+  border-radius: 50%;
+  height: 60px;
+}
+
 
 @media (max-width: 991px) {
   html {

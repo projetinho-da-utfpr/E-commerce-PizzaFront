@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-function Carrinho({ handleCloseCart, cartItems}) {
-
+function Carrinho({ handleCloseCart, cartItems, removerCarrinho }) {
 
 
 
@@ -13,16 +12,15 @@ function Carrinho({ handleCloseCart, cartItems}) {
         </div>
         {cartItems.map((item) => (
           <div className="box" key={item.id}>
-            <a href="#" className="fas fa-times"></a>
-            <img src={`images/pizza-${item.id}.jpg`} alt="" />
+            <button onClick={() => removerCarrinho(item.id)} className="fas fa-times"></button>
+            <img src={item.image} alt="" className="img-carrinho"/>
             <div className="content">
               <p>
                 {item.name}{" "}
                 <span>
-                  ( ${item.price}/- x {item.quantity})
+                  ( R$ {item.price} / - x {item.quantity})
                 </span>
               </p>
-              <form action="" method="post">
                 <input
                   type="number"
                   className="qty"
@@ -39,7 +37,6 @@ function Carrinho({ handleCloseCart, cartItems}) {
                   className="fas fa-edit"
                   name="update_qty"
                 ></button>
-              </form>
             </div>
           </div>
         ))}

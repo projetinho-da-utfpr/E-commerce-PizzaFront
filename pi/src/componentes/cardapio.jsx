@@ -1,17 +1,20 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect} from "react";
 
-function Cardapio({ menuItems }) {
+function Cardapio({ menuItems, adicionarNoCarrinho }) {
 
-
+  // Tamanho da pizza
   const [selectedSize, setSelectedSize] = useState("Pequena");
+  // Pizza selecionada
   const [selectedPizza, setSelectedPizza] = useState(null);
+  // Quantidade de pizzas
   const [quantity, setQuantity] = useState(1);
-  const [carrinho, setCarrinho] = useState([]);
+  // Aba dos produtos cobertos
   const [showAllItems, setShowAllItems] = useState(false);
+  // Input de qtd de itens
   const boxContainerRef = useRef(null);
   const firstRowItems = menuItems.slice(0, 3);
 
-
+  // Seleciona a pizza e abra o modal de detalhes dela
   const handlePizzaClick = (pizza) => {
     setSelectedPizza(pizza);
     setIsModalOpen(true);
@@ -48,19 +51,16 @@ function Cardapio({ menuItems }) {
   };
 
 
-
+  // Altera o tamanho da pizza
   const handleSizeClick = (size) => {
     setSelectedSize(size);
   };
-
+  // Altera a quantidade de itens
   const handleQuantityChange = (event) => {
     setQuantity(event.target.value);
   };
 
 
-  const adicionarNoCarrinho = (pizza) => {
-    setCarrinho([...carrinho, pizza]);
-  };
 
   return (
     <section id="menu" className={`menu ${showAllItems ? "expanded" : ""}`}>

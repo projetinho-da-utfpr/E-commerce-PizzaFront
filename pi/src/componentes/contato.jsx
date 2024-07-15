@@ -17,7 +17,7 @@ export default function Contatos() {
         <div className="box">
           <i className="fas fa-clock"></i>
           <h3>Horário de atendimento</h3>
-          <p>00:00 até 23:59</p> {/* Use consistent time format */}
+          <p>00:00 até 23:59</p>
         </div>
 
         <div className="box">

@@ -6,12 +6,11 @@ import Menu from "./componentes/menu";
 import Perguntas from "./componentes/perguntas";
 import Contatos from "./componentes/contato";
 import Navbar from "./componentes/navbar";
-import { PizzaContext } from "./context/pizzascontext"; 
+import { PizzaContext } from "./context/pizzascontext";
 
 export default function App() {
-  const { pizzas } = useContext(PizzaContext); 
-
-  // *** JUNTAR COM O BANCO DE DADOS *** //
+  const { pizzas } = useContext(PizzaContext); // DADOS DOS PRODUTOS
+  const [carrinho, setCarrinho] = useState([]); // CARRINHO
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // SLIDES DAS PIZZAS
@@ -20,12 +19,12 @@ export default function App() {
     nome: pizza.nome,
   }));
 
+  // PRODUTOS PARA O CARDÁPIO
   const produtos = pizzas.map((pizza) => ({
     name: pizza.nome,
     price: pizza.preco,
     image: pizza.imagem,
   }));
-
 
   const handleNext = () => {
     setCurrentSlide((prevSlide) =>
@@ -39,21 +38,23 @@ export default function App() {
     );
   };
 
-
+  // ESTADO DO CARRINHO
   const handleCartClick = () => {
     setShowCart(true);
   };
-
-  const handleCloseCart = () => {
-    setShowCart(false);
+  // ADICIONAR PRODUTO AO CARRINHO
+  const adicionarCarrinho = (produto) => {
+    setCarrinho([...carrinho, produto]);
   };
+  // REMOVER PRODUTO DO CARRINHO, NAO TA FUNCIONANDO AINDA
+  const removerCarrinho = (id) => {
+    setCarrinho(carrinho.filter((item) => item.id !== id));
+  }
 
   return (
     <>
       {/* ### CABEÇALHO ### */}
-      <Navbar
-        handleCartClick={handleCartClick}
-      />
+      <Navbar handleCartClick={handleCartClick} carrinho={carrinho} />
       {/* ### HOME COM AS PIZZAS ### */}
       <Menu
         slides={slides}
@@ -64,7 +65,7 @@ export default function App() {
       {/* ### SOBRE NÓS ### */}
       <Sobrenos />
       {/* ### CARDÁPIO ### */}
-      <Cardapio menuItems={produtos} />
+      <Cardapio menuItems={produtos} adicionarNoCarrinho={adicionarCarrinho}/>
       {/* ### PEDIDO ### */}
       <Pedido />
       {/* ### PERGUNTAS E RESPOSTAS ### */}

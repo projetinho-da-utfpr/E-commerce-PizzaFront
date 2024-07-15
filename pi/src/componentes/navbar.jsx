@@ -3,7 +3,7 @@ import Usuario from "./contadeusuario";
 import Carrinho from "./carrinho";
 import { useState } from "react";
 
-const Navbar = () => {
+const Navbar = ({carrinho}) => {
   const [showUsuario, setShowUsuario] = useState(false);
 
   const [showCart, setShowCart] = useState(false);
@@ -41,7 +41,7 @@ const Navbar = () => {
           >
             <span>(9999)</span>
           </div>
-          {showCart && <Carrinho handleCloseCart={handleCloseCart} />}
+          {showCart && <Carrinho handleCloseCart={handleCloseCart} cartItems={carrinho}/>}
         </div>
       </section>
       {showUsuario && (
