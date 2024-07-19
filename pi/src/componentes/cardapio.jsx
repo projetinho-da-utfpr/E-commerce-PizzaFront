@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect} from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Cardapio({ menuItems, adicionarNoCarrinho }) {
 
@@ -110,6 +111,7 @@ function Cardapio({ menuItems, adicionarNoCarrinho }) {
             </button>
           </div>
 
+
           <button onClick={() => adicionarNoCarrinho(selectedPizza)}>
             Adicionar ao Carrinho
           </button>
@@ -141,13 +143,14 @@ function Cardapio({ menuItems, adicionarNoCarrinho }) {
             />
             <div className="name">{menuItem.name}</div>
             <div className="vermais">
-              <a href="/pizza">
+              <Link to={`pizza/${menuItem.id}`}>
                 <button>Veja mais</button>
-              </a>
+              </Link>
               <button onClick={() => handlePizzaClick(menuItem)}>
                 Adicionar no carrinho
               </button>
             </div>
+
           </div>
         ))}
         {showAllItems &&
@@ -167,11 +170,17 @@ function Cardapio({ menuItems, adicionarNoCarrinho }) {
                 style={{ objectFit: "cover", height: "350px", width: "130%" }}
               />
               <div className="name">{menuItem.name}</div>
-              <form action="" method="post">
-                <div className="qty-btn-container"></div>
-              </form>
+              <div className="vermais">
+                <a href="/pizza">
+                  <button>Veja mais</button>
+                </a>
+                <button onClick={() => handlePizzaClick(menuItem)}>
+                  Adicionar no carrinho
+                </button>
+              </div>
+              <div className="qty-btn-container"></div>
             </div>
-        ))}
+          ))}
       </div>
       {!showAllItems ? (
         <button className="expand-button" onClick={toggleMenu}>

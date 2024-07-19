@@ -6,9 +6,9 @@ import { useState, useContext } from 'react'
 import { PizzaContext } from '../../context/pizzascontext'
 
 
-const produto = () => {
+const produto = ({ produto }) => {
 
-  const { pizzas } = useContext(PizzaContext);
+  const produtoId = produto.menuItem.id;
 
 
   const [showUsuario, setShowUsuario] = useState(false);
@@ -23,52 +23,55 @@ const produto = () => {
 
   return (
     <>
-    <header className="header">
-      <section className="flex">
-        <a href="#home" className="logo">
-          BELLO PIZZO
-        </a>
-        <nav className="navbar">
-          <a href="/">Menu</a>
-        </nav>
-        <div className="icons">
-          <div id="menu-btn" className="fas fa-bars"></div>
-          <div
-            id="user-btn"
-            className="fas fa-user"
-            onClick={() => setShowUsuario(!showUsuario)}
-          ></div>
-          <div id="order-btn" className="fas fa-box"></div>
-          <div
-            id="cart-btn"
-            className="fas fa-shopping-cart"
-            onClick={() => setShowCart(!showCart)}
-          >
-            <span>(9999)</span>
+      <header className="header">
+        <section className="flex">
+          <a href="#home" className="logo">
+            BELLO PIZZO
+          </a>
+          <nav className="navbar">
+            <a href="/">Menu</a>
+          </nav>
+          <div className="icons">
+            <div id="menu-btn" className="fas fa-bars"></div>
+            <div
+              id="user-btn"
+              className="fas fa-user"
+              onClick={() => setShowUsuario(!showUsuario)}
+            ></div>
+            <div id="order-btn" className="fas fa-box"></div>
+            <div
+              id="cart-btn"
+              className="fas fa-shopping-cart"
+              onClick={() => setShowCart(!showCart)}
+            >
+              <span>(9999)</span>
+            </div>
+            {showCart && <Carrinho handleCloseCart={handleCloseCart} />}
           </div>
-          {showCart && <Carrinho handleCloseCart={handleCloseCart} />}
+        </section>
+        {showUsuario && (
+          <Usuario handleCloseModal={() => setShowUsuario(false)} />
+        )}
+      </header>
+
+
+      <div className="container">
+        <div className="pizza">
+          <div className="pizza-img">
+            <img src={produtoId.image} alt={produtoId.name} />
+          </div>
+          <div className="pizza-details">
+            <h1>{produtoId.name}</h1>
+            <p>{produtoId.description}</p>
+            <h2>R$ {produtoId.price}</h2>
+            <button>Adicionar ao carrinho</button>
+          </div>
         </div>
-      </section>
-      {showUsuario && (
-        <Usuario handleCloseModal={() => setShowUsuario(false)} />
-      )}
-    </header>
-    
-    <div>
-      {pizzas.map((pizza) => (
-        <div key={pizza.id} className="pizza">
-          <img src={pizza.imagem} alt={pizza.nome} />
-          <h3>{pizza.nome}</h3>
-          <p>{pizza.descricao}</p>
-          <p>R$ {pizza.preco}</p>
-          <button>Adicionar ao carrinho</button>
-        </div>
-      ), [])}
-    </div>
-      
-      
-  </>
-    )
+      </div>
+
+
+    </>
+  )
 }
-    
+
 export default produto;

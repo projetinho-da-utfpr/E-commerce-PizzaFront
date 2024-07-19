@@ -12,6 +12,7 @@ export const PizzaContextProvider = (props) => {
             .catch(error => console.error("Deu merda", error));
     };
 
+
     useEffect(() => {
         fetchTodasPizzas();
     }, []);
