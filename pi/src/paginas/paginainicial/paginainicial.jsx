@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Pedido from "../../componentes/pedido";
 import Sobrenos from "../../componentes/sobrenos";
 import Cardapio from "../../componentes/cardapio";
@@ -13,17 +13,28 @@ export default function Paginainicial() {
   const [carrinho, setCarrinho] = useState([]); // CARRINHO
   const [currentSlide, setCurrentSlide] = useState(0);
 
+  useEffect(() => {
+    console.log("Pizzas:", pizzas);
+  }, [pizzas]);
+
+  if (!Array.isArray(pizzas) || pizzas.length === 0) {
+    return <div>Carregando...</div>;
+  }
+
+  const baseURL = "http://localhost:8080/admin/produtos/imagem/";
+
   // SLIDES DAS PIZZAS
   const slides = pizzas.map((pizza) => ({
-    imagem: pizza.image,
-    nome: pizza.name,
+    imagem: `${baseURL}${pizza.imagem}`,
+    nome: pizza.nome,
   }));
 
   // PRODUTOS PARA O CARDÁPIO
   const produtos = pizzas.map((pizza) => ({
-    name: pizza.name,
-    price: pizza.price,
-    image: pizza.image,
+    id: pizza.id,
+    name: pizza.nome,
+    price: pizza.preco,
+    image: `${baseURL}${pizza.imagem}`,
   }));
 
   const handleNext = () => {
@@ -46,10 +57,10 @@ export default function Paginainicial() {
   const adicionarCarrinho = (produto) => {
     setCarrinho([...carrinho, produto]);
   };
-  // REMOVER PRODUTO DO CARRINHO, NAO TA FUNCIONANDO AINDA
+  // REMOVER PRODUTO DO CARRINHO
   const removerCarrinho = (id) => {
     setCarrinho(carrinho.filter((item) => item.id !== id));
-  }
+  };
 
   return (
     <>
@@ -65,7 +76,7 @@ export default function Paginainicial() {
       {/* ### SOBRE NÓS ### */}
       <Sobrenos />
       {/* ### CARDÁPIO ### */}
-      <Cardapio menuItems={produtos} adicionarNoCarrinho={adicionarCarrinho}/>
+      <Cardapio menuItems={produtos} adicionarNoCarrinho={adicionarCarrinho} />
       {/* ### PEDIDO ### */}
       <Pedido />
       {/* ### PERGUNTAS E RESPOSTAS ### */}

@@ -5,13 +5,19 @@ export const PizzaContext = createContext();
 export const PizzaContextProvider = (props) => {
     const [pizzas, setPizzas] = useState([]);
 
-    const fetchTodasPizzas = async () => {  
-        fetch(`http://localhost:8000/pizzas/`)
-            .then(response => response.json())
-            .then(response => setPizzas(response))
-            .catch(error => console.error("Deu merda", error));
+    const fetchTodasPizzas = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/produtos`);
+            const data = await response.json();
+            if (data.mensagem === "sucesso" && Array.isArray(data.produtos)) {
+                setPizzas(data.produtos);
+            } else {
+                console.error("Resposta inesperada da API", data);
+            }
+        } catch (error) {
+            console.error("Deu merda", error);
+        }
     };
-
 
     useEffect(() => {
         fetchTodasPizzas();
