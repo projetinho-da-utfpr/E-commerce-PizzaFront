@@ -17,7 +17,7 @@ const Navbar = ({carrinho}) => {
     <header className="header">
       <section className="flex">
         <a href="#home" className="logo">
-          BELLO PIZZO
+          Sabore D'Italia
         </a>
         <nav className="navbar">
           <a href="#home">Menu</a>

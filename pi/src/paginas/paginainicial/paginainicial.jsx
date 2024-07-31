@@ -21,7 +21,7 @@ export default function Paginainicial() {
     return <div>Carregando...</div>;
   }
 
-  const baseURL = "http://localhost:8080/admin/produtos/imagem/";
+  const baseURL = "http://localhost:8080/foto/mostrar/";
 
   // SLIDES DAS PIZZAS
   const slides = pizzas.map((pizza) => ({
