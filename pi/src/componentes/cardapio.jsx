@@ -61,6 +61,11 @@ function Cardapio({ menuItems, adicionarNoCarrinho }) {
     setQuantity(event.target.value);
   };
 
+  const handleAddToCart = (pizza) => {
+    adicionarNoCarrinho({ ...pizza, quantity: Math.max(1, quantity) });
+    setQuantity(1);
+  };
+
 
 
   return (
@@ -112,13 +117,13 @@ function Cardapio({ menuItems, adicionarNoCarrinho }) {
           </div>
 
 
-          <button onClick={() => adicionarNoCarrinho(selectedPizza)}>
+          <button onClick={() => handleAddToCart(selectedPizza)}>
             Adicionar ao Carrinho
           </button>
 
           <input
             type="number"
-            min="0"
+            min="1"
             max="100"
             value={quantity}
             onChange={handleQuantityChange}

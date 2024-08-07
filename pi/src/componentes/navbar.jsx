@@ -12,12 +12,13 @@ const Navbar = ({carrinho}) => {
     setShowCart(false);
   };
 
+  const totalItems = carrinho.reduce((total, item) => total + item.quantity, 0);
   
   return (
     <header className="header">
       <section className="flex">
         <a href="#home" className="logo">
-          Sabore D'Italia
+          Bello Pizza
         </a>
         <nav className="navbar">
           <a href="#home">Menu</a>
@@ -39,7 +40,7 @@ const Navbar = ({carrinho}) => {
             className="fas fa-shopping-cart"
             onClick={() => setShowCart(!showCart)}
           >
-            <span>(9999)</span>
+            <span>({totalItems})</span>
           </div>
           {showCart && <Carrinho handleCloseCart={handleCloseCart} cartItems={carrinho}/>}
         </div>
