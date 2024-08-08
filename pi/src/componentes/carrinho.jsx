@@ -1,6 +1,4 @@
-import React from "react";
-
-function Carrinho({ handleCloseCart, cartItems, removerCarrinho, handleQuantityChange }) {
+function Carrinho({ handleCloseCart, cartItems, removerCarrinho, handleQuantityChange, precoTotal, size }) {
   return (
     <div className="shopping-cart">
       <section>
@@ -9,32 +7,29 @@ function Carrinho({ handleCloseCart, cartItems, removerCarrinho, handleQuantityC
         </div>
         {cartItems.map((item) => (
           <div className="box" key={item.id}>
-            <button onClick={() => removerCarrinho(item.id)} className="fas fa-times"></button>
+            <button onClick={() => {
+              console.log(`Removendo item com id: ${item.id}`);
+              removerCarrinho(item.id);
+            }} className="fas fa-times"></button>
             <img src={item.image} alt="" className="img-carrinho" />
             <div className="content">
               <p>
                 {item.name}{" "}
                 <span>
-                  ( R$ {item.price} / - x {item.quantity})
+                  ( R$ {item.price} x {item.quantity})
                 </span>
+                <p>
+                  Tamanho: {size}{" "}
+                  </p>
               </p>
-              <input
-                type="number"
-                className="qty"
-                name="qty"
-                min="1"
-                value={item.quantity}
-                max="100"
-                onChange={(e) => handleQuantityChange(item.id, e.target.value)}
-              />
-              <button
-                type="submit"
-                className="fas fa-edit"
-                name="update_qty"
-              ></button>
             </div>
           </div>
         ))}
+        <div className="preco">
+          <h4>
+            Total: <span>R$ {precoTotal}</span>
+          </h4>
+        </div>
         <a href="#order" className="btn">
           Peça agora
         </a>

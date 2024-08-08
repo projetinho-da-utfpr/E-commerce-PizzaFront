@@ -12,6 +12,9 @@ export default function Paginainicial() {
   const { pizzas } = useContext(PizzaContext); // DADOS DOS PRODUTOS
   const [carrinho, setCarrinho] = useState([]); // CARRINHO
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [size, setSize] = useState("Pequena");
+
+  const [precototal, setPrecototal] = useState(0);
 
   useEffect(() => {
     console.log("Pizzas:", pizzas);
@@ -35,6 +38,7 @@ export default function Paginainicial() {
     name: pizza.nome,
     price: pizza.preco,
     image: `${baseURL}${pizza.imagem}`,
+    descricao: pizza.ingredientes,
   }));
 
   const handleNext = () => {
@@ -56,16 +60,22 @@ export default function Paginainicial() {
   // ADICIONAR PRODUTO AO CARRINHO
   const adicionarCarrinho = (produto) => {
     setCarrinho([...carrinho, produto]);
+    setPrecototal(precototal + Number(produto.price * produto.quantity));
   };
   // REMOVER PRODUTO DO CARRINHO
   const removerCarrinho = (id) => {
-    setCarrinho(carrinho.filter((item) => item.id !== id));
-  };
+    setCarrinho(cartItems.filter(item => item.id !== id));
+  }
+
+    // Altera o tamanho da pizza
+    const handleSizeClick = (size) => {
+      setSize(size);
+    };
 
   return (
     <>
       {/* ### CABEÇALHO ### */}
-      <Navbar handleCartClick={handleCartClick} carrinho={carrinho} />
+      <Navbar handleCartClick={handleCartClick} carrinho={carrinho} precoTotal={precototal} removercarrinho={removerCarrinho} size={size} />
       {/* ### HOME COM AS PIZZAS ### */}
       <Menu
         slides={slides}
@@ -76,9 +86,9 @@ export default function Paginainicial() {
       {/* ### SOBRE NÓS ### */}
       <Sobrenos />
       {/* ### CARDÁPIO ### */}
-      <Cardapio menuItems={produtos} adicionarNoCarrinho={adicionarCarrinho} />
+      <Cardapio menuItems={produtos} adicionarNoCarrinho={adicionarCarrinho} handleSizeClick={handleSizeClick}  />
       {/* ### PEDIDO ### */}
-      <Pedido />
+      <Pedido carrinho={carrinho}/>
       {/* ### PERGUNTAS E RESPOSTAS ### */}
       <Perguntas />
       {/* ### CONTATO ### */}

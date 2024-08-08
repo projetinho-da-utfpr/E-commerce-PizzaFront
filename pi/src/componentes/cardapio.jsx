@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-function Cardapio({ menuItems, adicionarNoCarrinho }) {
+function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick }) {
 
   // Tamanho da pizza
   const [selectedSize, setSelectedSize] = useState("Pequena");
@@ -14,6 +14,8 @@ function Cardapio({ menuItems, adicionarNoCarrinho }) {
   // Input de qtd de itens
   const boxContainerRef = useRef(null);
   const firstRowItems = menuItems.slice(0, 3);
+
+  const [pizzaFiltrada, setPizzaFiltrada] = useState("");
 
   // Seleciona a pizza e abra o modal de detalhes dela
   const handlePizzaClick = (pizza) => {
@@ -52,10 +54,7 @@ function Cardapio({ menuItems, adicionarNoCarrinho }) {
   };
 
 
-  // Altera o tamanho da pizza
-  const handleSizeClick = (size) => {
-    setSelectedSize(size);
-  };
+
   // Altera a quantidade de itens
   const handleQuantityChange = (event) => {
     setQuantity(event.target.value);
@@ -66,6 +65,8 @@ function Cardapio({ menuItems, adicionarNoCarrinho }) {
     setQuantity(1);
   };
 
+  const buscaPizza = menuItems.filter(pizza =>
+    pizza.name.toLowerCase().includes(pizzaFiltrada.toLowerCase())).slice(0, 10);
 
 
   return (
@@ -81,12 +82,12 @@ function Cardapio({ menuItems, adicionarNoCarrinho }) {
             <img src={selectedPizza.image} alt={selectedPizza.name} />
           </div>
 
-          <div className="descricao">
-            <p>{selectedPizza.description}</p>
-          </div>
-
           <div className="price">
             R$<span>{selectedPizza.price}</span>
+          </div>
+
+          <div className="description">
+            <p>{selectedPizza.descricao}</p>
           </div>
 
           <div className="size-buttons">
@@ -117,7 +118,7 @@ function Cardapio({ menuItems, adicionarNoCarrinho }) {
           </div>
 
 
-          <button onClick={() => handleAddToCart(selectedPizza)}>
+          <button onClick={() => { handleAddToCart(selectedPizza); closeModal(); }}>
             Adicionar ao Carrinho
           </button>
 
@@ -134,10 +135,25 @@ function Cardapio({ menuItems, adicionarNoCarrinho }) {
       )}
       <h1 className="heading">Cardápio</h1>
 
+      <div className="barra-pesquisa">
+        <input type="text" placeholder="Digite o nome da pizza" onChange={(e) => setPizzaFiltrada(e.target.value)} />
+        {pizzaFiltrada && (<ul>
+          {buscaPizza.map((pizza, index) => (
+            <li key={index}>
+              <img src={pizza.image} alt="" />
+              <div className="info">
+                <h1>{pizza.name}</h1>
+                <div className="price"><p>R$ {pizza.price}</p> </div>
+                <button onClick={() => handlePizzaClick(pizza)}>Adicionar ao carrinho</button>
+              </div>
+            </li>
+          ))}
+        </ul>)}
+      </div>
+
       <div ref={boxContainerRef} className="box-container">
         {firstRowItems.map((menuItem) => (
           <div key={menuItem.id} className="box">
-            <div className="Descricao">{menuItem.description}</div>
             <div className="price">
               R$<span>{menuItem.price}</span>
             </div>

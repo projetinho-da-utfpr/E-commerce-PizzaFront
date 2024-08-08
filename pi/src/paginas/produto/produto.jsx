@@ -3,12 +3,10 @@ import './produto.css'
 import Usuario from '../../componentes/contadeusuario'
 import Carrinho from '../../componentes/carrinho'
 import { useState, useContext } from 'react'
-import { PizzaContext } from '../../context/pizzascontext'
 
 
 const produto = ({ produto }) => {
 
-  const produtoId = produto.menuItem.id;
 
 
   const [showUsuario, setShowUsuario] = useState(false);
@@ -18,6 +16,7 @@ const produto = ({ produto }) => {
   const handleCloseCart = () => {
     setShowCart(false);
   };
+
 
 
 

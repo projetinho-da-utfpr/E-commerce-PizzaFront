@@ -1,12 +1,16 @@
 import React from "react";
 
-function Pedido() {
+function Pedido({ carrinho }) {
   return (
     <section id="order" className="order">
       <h1 className="heading">Peça Agora</h1>
 
       <form action="" method="post">
-        <div className="display-orders"></div>
+        <div className="display-orders">
+          {carrinho.map((item) => (
+            <h1>{item.name} x {item.quantity}</h1>
+          ))}
+        </div>
 
         <div className="flex">
           <div className="inputBox">

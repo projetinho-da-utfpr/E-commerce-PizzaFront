@@ -3,8 +3,7 @@ import Usuario from "./contadeusuario";
 import Carrinho from "./carrinho";
 import { useState } from "react";
 
-const Navbar = ({carrinho}) => {
-  const [showUsuario, setShowUsuario] = useState(false);
+const Navbar = ({carrinho, precoTotal, removercarrinho, size}) => {
 
   const [showCart, setShowCart] = useState(false);
 
@@ -30,24 +29,15 @@ const Navbar = ({carrinho}) => {
         <div className="icons">
           <div id="menu-btn" className="fas fa-bars"></div>
           <div
-            id="user-btn"
-            className="fas fa-user"
-            onClick={() => setShowUsuario(!showUsuario)}
-          ></div>
-          <div id="order-btn" className="fas fa-box"></div>
-          <div
             id="cart-btn"
             className="fas fa-shopping-cart"
             onClick={() => setShowCart(!showCart)}
           >
             <span>({totalItems})</span>
           </div>
-          {showCart && <Carrinho handleCloseCart={handleCloseCart} cartItems={carrinho}/>}
+          {showCart && <Carrinho handleCloseCart={handleCloseCart} cartItems={carrinho} precoTotal={precoTotal} removerCarrinho={removercarrinho} size={size}/>}
         </div>
       </section>
-      {showUsuario && (
-        <Usuario handleCloseModal={() => setShowUsuario(false)} />
-      )}
     </header>
   );
 };

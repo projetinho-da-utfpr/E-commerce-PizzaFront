@@ -429,7 +429,7 @@ section {
 
 .shopping-cart {
   position: fixed;
-  left: 79%;
+  left: 76%;
   width: 35rem;
   z-index: 1100;
   background-color: var(--light-bg);
@@ -438,6 +438,7 @@ section {
   overflow-y: scroll;
   animation-name: fadeIn;
   animation-duration: 0.5s;
+  border-radius: 10px;
 }
 
 .shopping-cart.active {
@@ -612,6 +613,91 @@ section {
 
 .about {
   padding: 5rem 2rem;
+}
+
+.barra-pesquisa input{
+  padding: 10px;
+  margin: 20px 0;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 10px;
+  
+}
+.barra-pesquisa ul {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  background: rgb(255,255,255);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  animation: fadeIn .5s ease-in-out;
+}
+
+.barra-pesquisa li {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  border: 1px solid white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.barra-pesquisa img {
+  width: 150px;
+  height: 150px;
+  margin-left: 20px;
+  border-radius: 25%;
+}
+
+.barra-pesquisa .info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.barra-pesquisa .info h1{
+  font-size: 3em;;
+}
+
+
+
+
+.barra-pesquisa .price {
+  font-size: 2.6em;
+  text-align: right;
+  white-space: nowrap;
+
+  
+}
+.barra-pesquisa .price p{
+  color: #ff0000;
+  font-weight: bold;
+  
+}
+
+.barra-pesquisa button{
+  padding: 5px;
+  margin: 5px;
+  background-color: #ff0000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  width: 25%;
+}
+
+.barra-pesquisa button:hover{
+
+  background-color: #000000;
+  color: #fff;
+ 
 }
 
 .box-container {
