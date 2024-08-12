@@ -20,7 +20,7 @@ function Carrinho({ handleCloseCart, cartItems, removerCarrinho, handleQuantityC
                 </span>
                 <p>
                   Tamanho: {size}{" "}
-                  </p>
+                </p>
               </p>
             </div>
           </div>

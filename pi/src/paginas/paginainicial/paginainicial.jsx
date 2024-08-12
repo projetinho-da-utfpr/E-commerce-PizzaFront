@@ -64,7 +64,7 @@ export default function Paginainicial() {
   };
   // REMOVER PRODUTO DO CARRINHO
   const removerCarrinho = (id) => {
-    setCarrinho(cartItems.filter(item => item.id !== id));
+    setCarrinho((prevCartItems) => prevCartItems.filter((item) => item.id !== id));
   }
 
     // Altera o tamanho da pizza

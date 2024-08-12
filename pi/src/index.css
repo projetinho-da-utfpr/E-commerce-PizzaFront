@@ -429,20 +429,18 @@ section {
 
 .shopping-cart {
   position: fixed;
-  left: 76%;
+  right: 0; 
   width: 35rem;
   z-index: 1100;
   background-color: var(--light-bg);
-  border-left: var(--border);
+  border-left: var(--border); 
+  margin-top: 23px;
   height: 100vh;
   overflow-y: scroll;
   animation-name: fadeIn;
   animation-duration: 0.5s;
   border-radius: 10px;
-}
-
-.shopping-cart.active {
-  right: 0;
+  transition: right 0.5s ease-in-out; 
 }
 
 .shopping-cart #close-cart {
