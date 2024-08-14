@@ -47,11 +47,14 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
     setPreco(getPreco(selectedPizza.especificacoes, "Grande"));
   }
 
+<<<<<<< HEAD
   const escolheTamanhoMetro = () => {
     setSelectedSize("Metro");
     setPreco(getPreco(selectedPizza.especificacoes, "Metro"));
   }
 
+=======
+>>>>>>> fbf3b1b28ed54262607fafafe3b45228ba8b2158
 
 
 
@@ -149,7 +152,11 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
             </button>
             <button
               className={`size-button ${selectedSize === "Metro" ? "active" : ""}`}
+<<<<<<< HEAD
               onClick={() => {handleSizeClick("Metro"); escolheTamanhoMetro();}}
+=======
+              onClick={() => handleSizeClick("Metro")}
+>>>>>>> fbf3b1b28ed54262607fafafe3b45228ba8b2158
             >
               Metro
             </button>
