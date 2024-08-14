@@ -37,5 +37,5 @@ function Carrinho({ handleCloseCart, cartItems, removerCarrinho, handleQuantityC
     </div>
   );
 }
-
+//teste commit
 export default Carrinho;
