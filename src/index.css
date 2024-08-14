@@ -432,14 +432,14 @@ section {
   right: 0; 
   width: 35rem;
   z-index: 1100;
-  background-color: var(--light-bg);
+  background-color: var(--black);
   border-left: var(--border); 
-  margin-top: 23px;
+  margin-top: -50px;
   height: 100vh;
   overflow-y: scroll;
-  animation-name: fadeIn;
+  animation-name: slideIn;
   animation-duration: 0.5s;
-  border-radius: 10px;
+  animation-fill-mode: forwards;
   transition: right 0.5s ease-in-out; 
 }
 
@@ -526,6 +526,25 @@ section {
   color: var(--white);
 }
 
+
+@keyframes slideIn {
+  from {
+    right: -35rem;
+  }
+  to {
+    right: 0;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    right: 0;
+  }
+  to {
+    right: -35rem;
+  }
+}
+
 @keyframes fadeLeft {
   0% {
     transform: translateX(5rem);
@@ -537,6 +556,7 @@ section {
     transform: translateX(-5rem);
   }
 }
+
 .home {
   position: relative;
   height: 100vh;
