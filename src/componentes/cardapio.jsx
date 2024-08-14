@@ -52,6 +52,8 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
     setPreco(getPreco(selectedPizza.especificacoes, "Metro"));
   }
 
+=======
+>>>>>>> fbf3b1b28ed54262607fafafe3b45228ba8b2158
 
 
 
