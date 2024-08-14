@@ -52,9 +52,6 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
     setPreco(getPreco(selectedPizza.especificacoes, "Metro"));
   }
 
-=======
->>>>>>> fbf3b1b28ed54262607fafafe3b45228ba8b2158
-
 
 
   // Seleciona a pizza e abra o modal de detalhes dela
@@ -198,7 +195,7 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
 
           <div key={menuItem.id} className="box">
             <div className="price">
-              R$<span>{getPreco(menuItem.especificacoes, selectedSize)}</span>
+              R$ <span>{getPreco(menuItem.especificacoes, selectedSize)}</span>
             </div>
             <img
               src={menuItem.image}
@@ -226,7 +223,7 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
             >
               <div className="Descricao">{menuItem.description}</div>
               <div className="price">
-                R$<span>{menuItem.price}</span>
+                R$ <span>{getPreco(menuItem.especificacoes, selectedSize)}</span>
               </div>
               <img
                 src={menuItem.image}
