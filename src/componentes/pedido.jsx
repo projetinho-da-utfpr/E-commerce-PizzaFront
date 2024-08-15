@@ -1,13 +1,35 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
+import emailjs from '@emailjs/browser';
 
 function Pedido({ carrinho }) {
 
-  const { register, handleSubmit, setValue, setFocus } = useForm();
+  const nameRef = useRef(null);
+  const emailRef = useRef(null);
 
-  const onSubmit = (e) => {
-    console.log(e);
+
+
+  function sendEmail(e) {
+    e.preventDefault();
+
+    const templateParams = {
+      from_name: "BELLO PIZZO",
+      to_name: nameRef.current.value,
+      email: emailRef.current.value,
+      message: `Seu pedido foi confirmado, em caso de dúvidas entre em contato com o número: 99999-9999\n${carrinho.map((item) => {
+        return `${item.name} ${item.medida} x ${item.quantity}: R$ ${item.preco * item.quantity}`;
+      }).join('\n')}`
+    };
+
+    emailjs.send("service_xk8v6em", "template_5xre1x9", templateParams, "px3BoXBz8xqaLzaHT")
+      .then((response) => {
+        console.log('SUCCESS!', response.status, response.text);
+      }, (err) => {
+        console.error('FAILED...', err);
+      });
   }
+  const { register, setValue, setFocus } = useForm();
+
   const checkCEP = (e) => {
     const cep = e.target.value.replace(/\D/g, '');
     console.log(cep);
@@ -19,16 +41,16 @@ function Pedido({ carrinho }) {
       setValue('uf', data.uf);
       setFocus('addressNumber');
     })
-    .catch((err) => {
-      alert('CEP Inválido, por favor digite um CEP válido');
-    });
+      .catch((err) => {
+        alert('CEP Inválido, por favor digite um CEP válido');
+      });
 
   }
   return (
     <section id="order" className="order">
       <h1 className="heading">Peça Agora</h1>
 
-      <form onSubmit={handleSubmit(onSubmit)} >
+      <form onSubmit={sendEmail} >
         <div className="display-orders">
           {carrinho.map((item) => (
             <h1>{item.name} x {item.quantity}</h1>
@@ -44,11 +66,12 @@ function Pedido({ carrinho }) {
               className="box"
               required
               placeholder="Digite seu nome"
-              maxLength="20"
+              maxLength="50"
+              ref={nameRef}
             />
           </div>
           <div className="inputBox">
-            <span>Seu número:</span>
+            <span>Seu número de celular:</span>
             <input
               type="number"
               name="number"
@@ -65,6 +88,7 @@ function Pedido({ carrinho }) {
               <option value="credit card">Cartão de crédito</option>
               <option value="paytm">Cartão de débito</option>
               <option value="paypal">Pix</option>
+
             </select>
           </div>
           <div className="inputBox">
@@ -100,6 +124,29 @@ function Pedido({ carrinho }) {
               required
               placeholder="Digite o CEP"
               {...register("cep")} onBlur={checkCEP}
+            />
+          </div>
+          <div className="inputBox">
+            <span>Número:</span>
+            <input
+              type="number"
+              name="addressNumber"
+              className="box"
+              required
+              placeholder="Digite o número"
+              min="0"
+            />
+          </div>
+          <div className="inputBox">
+            <span>E-mail:</span>
+            <input
+              type="email"
+              name="email"
+              className="box"
+              required
+              placeholder="Digite seu e-mail"
+              maxLength="50"
+              ref={emailRef}
             />
           </div>
         </div>
