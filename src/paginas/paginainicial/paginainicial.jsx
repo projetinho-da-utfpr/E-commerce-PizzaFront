@@ -74,10 +74,22 @@ export default function Paginainicial() {
     setPrecototal(precototal + Number(precoCarrinho * produto.quantity));
   };
   // REMOVER PRODUTO DO CARRINHO
-  const removerCarrinho = (uniqueId) => {
-    setCarrinho((prevCartItems) => prevCartItems.filter((item) => item.uniqueId !== uniqueId));
-    setPrecototal(precototal - Number(precoCarrinho) * carrinho.find((item) => item.uniqueId === uniqueId).quantity);
-  };
+  function removerCarrinho(uniqueId) {
+    const item = carrinho.find((item) => item.uniqueId === uniqueId);
+    
+    if (item) {
+      const precoCarrinho = Number(item.preco);
+      const quantidade = item.quantity;
+      const valorRemover = precoCarrinho * quantidade;
+  
+      // Atualizar o preço total, garantindo que não fique negativo
+      setPrecototal((prevPrecototal) => Math.max(0, prevPrecototal - valorRemover));
+  
+      // Remover o item do carrinho
+      const novoCarrinho = carrinho.filter((item) => item.uniqueId !== uniqueId);
+      setCarrinho(novoCarrinho);
+    }
+  }
 
     // Altera o tamanho da pizza
     const handleSizeClick = (size) => {

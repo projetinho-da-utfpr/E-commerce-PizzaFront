@@ -155,7 +155,7 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
           </div>
 
 
-          <button onClick={() => { handleAddToCart(selectedPizza); closeModal(); escolheTamanhoPequena(); }}>
+          <button onClick={() => { handleAddToCart(selectedPizza); closeModal();}}>
             Adicionar ao Carrinho
           </button>
 
@@ -180,7 +180,7 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
               <img src={pizza.image} alt="" />
               <div className="info">
                 <h1>{pizza.name}</h1>
-                <div className="price"><p>R$ {pizza.price}</p> </div>
+                <div className="price"><p>R$ {getPreco(pizza.especificacoes, "Pequena")}</p> </div>
                 <button onClick={() => {handlePizzaClick(pizza)}}>Adicionar ao carrinho</button>
               </div>
             </li>
@@ -195,7 +195,7 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
 
           <div key={menuItem.id} className="box">
             <div className="price">
-              R$ <span>{getPreco(menuItem.especificacoes, selectedSize)}</span>
+              R$ <span>{getPreco(menuItem.especificacoes, "Pequena")}</span>
             </div>
             <img
               src={menuItem.image}
@@ -223,7 +223,7 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
             >
               <div className="Descricao">{menuItem.description}</div>
               <div className="price">
-                R$ <span>{getPreco(menuItem.especificacoes, selectedSize)}</span>
+                R$ <span>{getPreco(menuItem.especificacoes, "Pequena")}</span>
               </div>
               <img
                 src={menuItem.image}

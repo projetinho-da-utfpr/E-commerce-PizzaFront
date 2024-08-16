@@ -27,6 +27,8 @@ function Pedido({ carrinho }) {
       }, (err) => {
         console.error('FAILED...', err);
       });
+
+    alert('Pedido enviado com sucesso! Cheque seu e-mail para mais informações');
   }
   const { register, setValue, setFocus } = useForm();
 
