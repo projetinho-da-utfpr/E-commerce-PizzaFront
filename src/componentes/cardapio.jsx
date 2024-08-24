@@ -2,25 +2,28 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrinho }) {
-
-  // Tamanho da pizza
   const [selectedSize, setSelectedSize] = useState("Pequena");
-  // Pizza selecionada
   const [selectedPizza, setSelectedPizza] = useState(null);
-  // Quantidade de pizzas
   const [quantity, setQuantity] = useState(1);
-  // Aba dos produtos cobertos
   const [showAllItems, setShowAllItems] = useState(false);
-  // Input de qtd de itens
   const boxContainerRef = useRef(null);
   const firstRowItems = menuItems.slice(0, 3);
-
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [pizzaFiltrada, setPizzaFiltrada] = useState("");
+  const [preco, setPreco] = useState(0);
 
-  const[preco, setPreco] = useState(0);
+  useEffect(() => {
+    precoCarrinho(preco);
+  }, [preco, precoCarrinho]);
 
-  precoCarrinho(preco);
-
+  useEffect(() => {
+    if (boxContainerRef.current) {
+      boxContainerRef.current.style.maxHeight = showAllItems
+        ? `${boxContainerRef.current.scrollHeight}px`
+        : `550px`;
+    }
+  }, [showAllItems]);
 
   const getPreco = (especificacoes, medida) => {
     if (!especificacoes) {
@@ -31,37 +34,34 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
     return especificacao ? especificacao.price : "N/A";
   };
 
-  const escolheTamanhoPequena = () => {
-    setSelectedSize("Pequena");
-    setPreco(getPreco(selectedPizza.especificacoes, "Pequena"));
+  const escolheTamanho = (tamanho) => {
+    setSelectedSize(tamanho);
+    setPreco(getPreco(selectedPizza.especificacoes, tamanho));
+  };
 
-  }
-
-  const escolheTamanhoMedia = () => {
-    setSelectedSize("Média");
-    setPreco(getPreco(selectedPizza.especificacoes, "Média"));
-  }
-
-  const escolheTamanhoGrande = () => {
-    setSelectedSize("Grande");
-    setPreco(getPreco(selectedPizza.especificacoes, "Grande"));
-  }
-
-  const escolheTamanhoMetro = () => {
-    setSelectedSize("Metro");
-    setPreco(getPreco(selectedPizza.especificacoes, "Metro"));
-  }
-
-
-
-  // Seleciona a pizza e abra o modal de detalhes dela
   const handlePizzaClick = (pizza) => {
     setSelectedPizza(pizza);
     setIsModalOpen(true);
-    const pizzaDetailsElement = document.getElementById("pizza-details");
-    pizzaDetailsElement.scrollIntoView({ behavior: "smooth" });
+    setPreco(getPreco(pizza.especificacoes, "Pequena"));
   };
 
+  const closeModal = () => {
+    setSelectedPizza(null);
+    setIsModalOpen(false);
+  };
+
+  const handleQuantityChange = (event) => {
+    setQuantity(parseInt(event.target.value));
+  };
+
+  const handleAddToCart = (pizza) => {
+    adicionarNoCarrinho({ ...pizza, quantity: Math.max(1, quantity), size: selectedSize, preco });
+    setQuantity(1);
+    closeModal();
+  };
+
+  const buscaPizza = menuItems.filter(pizza =>
+    pizza.name.toLowerCase().includes(pizzaFiltrada.toLowerCase())).slice(0, 10);
 
   const toggleMenu = () => {
     setShowAllItems(!showAllItems);
@@ -73,126 +73,34 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
     menuElement.scrollIntoView({ behavior: "smooth" });
   };
 
-  useEffect(() => {
-    if (boxContainerRef.current) {
-      const firstRowHeight =
-        boxContainerRef.current.getBoundingClientRect().height;
-      boxContainerRef.current.style.maxHeight = showAllItems
-        ? `${boxContainerRef.current.scrollHeight}px`
-        : `550px`;
-    }
-  }, [showAllItems]);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const closeModal = () => {
-    setSelectedPizza(null);
-    setIsModalOpen(false);
-  };
-
-
-
-  // Altera a quantidade de itens
-  const handleQuantityChange = (event) => {
-    setQuantity(event.target.value);
-  };
-
-  const handleAddToCart = (pizza) => {
-    adicionarNoCarrinho({ ...pizza, quantity: Math.max(1, quantity) });
-    setQuantity(1);
-  };
-
-  const buscaPizza = menuItems.filter(pizza =>
-    pizza.name.toLowerCase().includes(pizzaFiltrada.toLowerCase())).slice(0, 10);
-
-
   return (
     <section id="menu" className={`menu ${showAllItems ? "expanded" : ""}`}>
-      {isModalOpen && selectedPizza && (
-        <div className="pizza-details">
-          <button onClick={closeModal} className="close-button-details">
-            Fechar
-          </button>
-
-          <h1>{selectedPizza.name}</h1>
-          <div className="imagem">
-            <img src={selectedPizza.image} alt={selectedPizza.name} />
-          </div>
-
-          <div className="price">
-            <p>Preço: R$<span>{preco}</span></p>
-          </div>
-
-          <div className="description">
-            <p>{selectedPizza.descricao}</p>
-          </div>
-
-          <div className="size-buttons">
-            <button
-              className={`size-button ${selectedSize === "Pequena" ? "active" : ""}`}
-              onClick={() => {handleSizeClick("Pequena"); escolheTamanhoPequena()}}
-            >
-              Pequena
-            </button>
-            <button
-              className={`size-button ${selectedSize === "Média" ? "active" : ""}`}
-              onClick={() => {handleSizeClick("Média"); escolheTamanhoMedia();}}
-            >
-              Média
-            </button>
-            <button
-              className={`size-button ${selectedSize === "Grande" ? "active" : ""}`}
-              onClick={() => {handleSizeClick("Grande"); escolheTamanhoGrande();}}
-            >
-              Grande
-            </button>
-            <button
-              className={`size-button ${selectedSize === "Metro" ? "active" : ""}`}
-              onClick={() => {handleSizeClick("Metro"); escolheTamanhoMetro();}}
-            >
-              Metro
-            </button>
-          </div>
-
-
-          <button onClick={() => { handleAddToCart(selectedPizza); closeModal();}}>
-            Adicionar ao Carrinho
-          </button>
-
-          <input
-            type="number"
-            min="1"
-            max="100"
-            value={quantity}
-            onChange={handleQuantityChange}
-            className="qty"
-            name="qty"
-          />
-        </div>
-      )}
       <h1 className="heading">Cardápio</h1>
 
       <div className="barra-pesquisa">
-        <input type="text" placeholder="Digite o nome da pizza" onChange={(e) => setPizzaFiltrada(e.target.value)} />
-        {pizzaFiltrada && (<ul>
-          {buscaPizza.map((pizza, index) => (
-            <li key={index}>
-              <img src={pizza.image} alt="" />
-              <div className="info">
-                <h1>{pizza.name}</h1>
-                <div className="price"><p>R$ {getPreco(pizza.especificacoes, "Pequena")}</p> </div>
-                <button onClick={() => {handlePizzaClick(pizza)}}>Adicionar ao carrinho</button>
-              </div>
-            </li>
-          ))}
-        </ul>)}
+        <input 
+          type="text" 
+          placeholder="Digite o nome da pizza" 
+          onChange={(e) => setPizzaFiltrada(e.target.value)} 
+        />
+        {pizzaFiltrada && (
+          <ul>
+            {buscaPizza.map((pizza, index) => (
+              <li key={index}>
+                <img src={pizza.image} alt="" />
+                <div className="info">
+                  <h1>{pizza.name}</h1>
+                  <div className="price"><p>R$ {getPreco(pizza.especificacoes, "Pequena")}</p></div>
+                  <button onClick={() => handlePizzaClick(pizza)}>Adicionar ao carrinho</button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
-
-
       <div ref={boxContainerRef} className="box-container">
-        {firstRowItems.map((menuItem) => (
-
+        {(showAllItems ? menuItems : firstRowItems).map((menuItem) => (
           <div key={menuItem.id} className="box">
             <div className="price">
               R$ <span>{getPreco(menuItem.especificacoes, "Pequena")}</span>
@@ -211,38 +119,10 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
                 Adicionar no carrinho
               </button>
             </div>
-
           </div>
         ))}
-        {showAllItems &&
-          menuItems.slice(3).map((menuItem) => (
-            <div
-              key={menuItem.id}
-              className="box"
-              onClick={() => handlePizzaClick(menuItem)}
-            >
-              <div className="Descricao">{menuItem.description}</div>
-              <div className="price">
-                R$ <span>{getPreco(menuItem.especificacoes, "Pequena")}</span>
-              </div>
-              <img
-                src={menuItem.image}
-                alt={menuItem.name}
-                style={{ objectFit: "cover", height: "350px", width: "130%" }}
-              />
-              <div className="name">{menuItem.name}</div>
-              <div className="vermais">
-                <a href="/pizza">
-                  <button>Veja mais</button>
-                </a>
-                <button onClick={() => handlePizzaClick(menuItem)}>
-                  Adicionar no carrinho
-                </button>
-              </div>
-              <div className="qty-btn-container"></div>
-            </div>
-          ))}
       </div>
+
       {!showAllItems ? (
         <button className="expand-button" onClick={toggleMenu}>
           <i className="fa fa-angle-down"></i>
@@ -251,6 +131,47 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
         <button className="close-button" onClick={handleCloseMenu}>
           <i className="fa fa-angle-up"></i>
         </button>
+      )}
+
+      {isModalOpen && selectedPizza && (
+        <div className="overlay">
+          <div className="pizza-details">
+            <button onClick={closeModal} className="close-button-details">
+              &times;
+            </button>
+            <h1>{selectedPizza.name}</h1>
+            <img src={selectedPizza.image} alt={selectedPizza.name} />
+            <div className="price">
+              <p>Preço: R$<span>{preco}</span></p>
+            </div>
+            <div className="description">
+              <p>{selectedPizza.descricao}</p>
+            </div>
+            <div className="size-buttons">
+              {["Pequena", "Média", "Grande", "Metro"].map((size) => (
+                <button
+                  key={size}
+                  className={`size-button ${selectedSize === size ? "active" : ""}`}
+                  onClick={() => {handleSizeClick(size); escolheTamanho(size);}}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
+            <input
+              type="number"
+              min="1"
+              max="100"
+              value={quantity}
+              onChange={handleQuantityChange}
+              className="qty"
+              name="qty"
+            />
+            <button onClick={() => handleAddToCart(selectedPizza)}>
+              Adicionar ao Carrinho
+            </button>
+          </div>
+        </div>
       )}
     </section>
   );

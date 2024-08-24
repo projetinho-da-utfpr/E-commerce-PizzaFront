@@ -1,9 +1,25 @@
-function Menu({ slides, currentSlide, handlePrev, handleNext }) {
+import { useState } from 'react';
+
+function Menu({ slides }) {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const totalSlides = slides.length > 5 ? 5 : slides.length;
+
+  const handlePrev = () => {
+    setCurrentSlide((prev) => (prev === 0 ? totalSlides - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentSlide((prev) => (prev === totalSlides - 1 ? 0 : prev + 1));
+  };
+
+  const limitedSlides = slides.slice(0, 5);
+
   return (
     <div className="home-bg">
       <section className="home" id="home">
         <div className="slide-container">
-          {slides.map((slide, index) => (
+          {limitedSlides.map((slide, index) => (
             <div
               key={index}
               className={`slide ${currentSlide === index ? "active" : ""}`}
