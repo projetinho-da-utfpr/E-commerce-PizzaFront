@@ -3,16 +3,17 @@ import Usuario from "./contadeusuario";
 import Carrinho from "./carrinho";
 import { useState } from "react";
 
-const Navbar = ({carrinho, precoTotal, removercarrinho, size, precoCarrinho}) => {
+const Navbar = ({ carrinho, precoTotal, removercarrinho, size, precoCarrinho }) => {
 
   const [showCart, setShowCart] = useState(false);
+  const [showUsuario, setShowUsuario] = useState(false);
 
   const handleCloseCart = () => {
     setShowCart(false);
   };
 
   const totalItems = carrinho.reduce((total, item) => total + item.quantity, 0);
-  
+
   return (
     <header className="header">
       <section className="flex">
@@ -29,15 +30,24 @@ const Navbar = ({carrinho, precoTotal, removercarrinho, size, precoCarrinho}) =>
         <div className="icons">
           <div id="menu-btn" className="fas fa-bars"></div>
           <div
+            id="user-btn"
+            className="fas fa-user"
+            onClick={() => setShowUsuario(!showUsuario)}
+          ></div>
+          <div id="order-btn" className="fas fa-box"></div>
+          <div
             id="cart-btn"
             className="fas fa-shopping-cart"
             onClick={() => setShowCart(!showCart)}
           >
             <span>({totalItems})</span>
           </div>
-          {showCart && <Carrinho handleCloseCart={handleCloseCart} cartItems={carrinho} precoTotal={precoTotal} removerCarrinho={removercarrinho} size={size} precoCarrinho={precoCarrinho}/>}
+          {showCart && <Carrinho handleCloseCart={handleCloseCart} cartItems={carrinho} precoTotal={precoTotal} removerCarrinho={removercarrinho} size={size} precoCarrinho={precoCarrinho} />}
         </div>
       </section>
+      {showUsuario && (
+        <Usuario handleCloseModal={() => setShowUsuario(false)} />
+      )}
     </header>
   );
 };

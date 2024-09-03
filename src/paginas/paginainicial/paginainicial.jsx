@@ -18,10 +18,6 @@ export default function Paginainicial() {
 
   const [precototal, setPrecototal] = useState(0);
 
-  useEffect(() => {
-    console.log("Pizzas:", pizzas);
-  }, [pizzas]);
-
 
   const baseURL = "http://localhost:8080/foto/mostrar/";
 

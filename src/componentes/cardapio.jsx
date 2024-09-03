@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import MonteSuaPizza from "./montesuapizza";
 
 function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrinho }) {
   const [selectedSize, setSelectedSize] = useState("Pequena");
@@ -7,12 +8,17 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
   const [quantity, setQuantity] = useState(1);
   const [showAllItems, setShowAllItems] = useState(false);
   const boxContainerRef = useRef(null);
-  const firstRowItems = menuItems.slice(0, 3);
-  
+  const firstRowItems = menuItems.slice(0, 2);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pizzaFiltrada, setPizzaFiltrada] = useState("");
   const [preco, setPreco] = useState(0);
 
+  const [isModalMonte, setIsModalMonte] = useState(false);
+
+  const MontaPizza = () => {
+    setIsModalMonte(!isModalMonte);
+  }
   useEffect(() => {
     precoCarrinho(preco);
   }, [preco, precoCarrinho]);
@@ -78,10 +84,10 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
       <h1 className="heading">Cardápio</h1>
 
       <div className="barra-pesquisa">
-        <input 
-          type="text" 
-          placeholder="Digite o nome da pizza" 
-          onChange={(e) => setPizzaFiltrada(e.target.value)} 
+        <input
+          type="text"
+          placeholder="Digite o nome da pizza"
+          onChange={(e) => setPizzaFiltrada(e.target.value)}
         />
         {pizzaFiltrada && (
           <ul>
@@ -99,8 +105,28 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
         )}
       </div>
 
+     
+
+
+
+
       <div ref={boxContainerRef} className="box-container">
+      <div className="box">
+           <div className="price">
+             <span>A partir de R$60</span>
+           </div>
+           <img
+             style={{ objectFit: "cover", height: "350px", width: "130%" }}
+           />
+           <div className="name">Faça sua pizza!</div>
+           <div className="vermais">
+               <button onClick={MontaPizza}>Monte sua pizza</button>
+           </div>
+         </div>
+
+         {isModalMonte && <MonteSuaPizza modal={MontaPizza} handleAddToCart={handleAddToCart}/>}
         {(showAllItems ? menuItems : firstRowItems).map((menuItem) => (
+          
           <div key={menuItem.id} className="box">
             <div className="price">
               R$ <span>{getPreco(menuItem.especificacoes, "Pequena")}</span>
@@ -152,7 +178,7 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
                 <button
                   key={size}
                   className={`size-button ${selectedSize === size ? "active" : ""}`}
-                  onClick={() => {handleSizeClick(size); escolheTamanho(size);}}
+                  onClick={() => { handleSizeClick(size); escolheTamanho(size); }}
                 >
                   {size}
                 </button>
