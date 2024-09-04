@@ -256,10 +256,15 @@ section {
 
 .user-account {
   position: fixed;
-  width: 100%;
+  left: -25px;
+  width: 110%;
   z-index: 1100;
   background-color: var(--white);
   height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   overflow-y: scroll;
   animation-name: fadeIn;
   animation-duration: 0.5s;
@@ -442,9 +447,9 @@ section {
 .shopping-cart {
   position: fixed;
   right: 0; 
-  width: 35rem;
+  width: 40rem;
   z-index: 1100;
-  background-color: var(--black);
+  background-color: var(--light-bg);
   border-left: var(--border); 
   margin-top: -50px;
   height: 100vh;
@@ -453,6 +458,11 @@ section {
   animation-duration: 0.5s;
   animation-fill-mode: forwards;
   transition: right 0.5s ease-in-out; 
+}
+
+.shopping-cart .box .content {
+  display: flex;
+  flex-direction: column;
 }
 
 .shopping-cart #close-cart {
@@ -503,9 +513,15 @@ section {
 .shopping-cart .box .content p {
   font-size: 1.8rem;
   color: var(--light-color);
+  margin-bottom: 0.5rem;
+}
+
+.shopping-cart .box .content p:first-child {
+  font-weight: bold;
 }
 
 .shopping-cart .box .content p span {
+  display: block;
   color: var(--red);
 }
 
@@ -515,13 +531,19 @@ section {
   gap: 1rem;
 }
 
-.shopping-cart .box .content form .qty {
-  border: var(--border);
+.shopping-cart .box .content .qty-carrinho {
+  margin-top: 0.3rem;
+  margin-left: -0rem;
+}
+
+
+.shopping-cart .box .content .qty-carrinho input {
+  border: 1px solid var(--light-color);
   border-radius: 0.5rem;
-  padding: 1rem;
-  font-size: 1.8rem;
+  padding: 0.5rem;
+  font-size: 1.6rem;
   color: var(--black);
-  width: 8rem;
+  width: 15rem;
 }
 
 .shopping-cart .box .content form .fa-edit {
@@ -694,9 +716,6 @@ section {
 .barra-pesquisa .info h1{
   font-size: 3em;;
 }
-
-
-
 
 .barra-pesquisa .price {
   font-size: 2.6em;

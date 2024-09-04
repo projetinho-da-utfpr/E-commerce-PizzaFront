@@ -73,6 +73,19 @@ export default function Paginainicial() {
     setCarrinho([...carrinho, produtoComDetalhes]);
     setPrecototal(precototal + Number(precoCarrinho * produto.quantity));
   };
+  const handleQuantityChange = (uniqueId, newQuantity) => {
+    setCarrinho(prevCarrinho => 
+      prevCarrinho.map(item => {
+        if (item.uniqueId === uniqueId) {
+          const oldTotal = item.preco * item.quantity;
+          const newTotal = item.preco * newQuantity;
+          setPrecototal(prevTotal => prevTotal - oldTotal + newTotal);
+          return { ...item, quantity: Math.max(1, newQuantity) };
+        }
+        return item;
+      })
+    );
+  };
   // REMOVER PRODUTO DO CARRINHO
   function removerCarrinho(uniqueId) {
     const item = carrinho.find((item) => item.uniqueId === uniqueId);
@@ -99,7 +112,7 @@ export default function Paginainicial() {
   return (
     <>
       {/* ### CABEÇALHO ### */}
-      <Navbar handleCartClick={handleCartClick} carrinho={carrinho} precoTotal={precototal} removercarrinho={removerCarrinho} size={size} precoCarrinho={precoCarrinho} />
+      <Navbar handleCartClick={handleCartClick} carrinho={carrinho} precoTotal={precototal} removercarrinho={removerCarrinho} handleQuantityChange={handleQuantityChange} size={size} precoCarrinho={precoCarrinho} />
       {/* ### HOME COM AS PIZZAS ### */}
       <Menu
         slides={slides}
