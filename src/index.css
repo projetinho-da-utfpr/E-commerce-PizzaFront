@@ -256,16 +256,16 @@ section {
 
 .user-account {
   position: fixed;
-  left: -25px;
-  width: 110%;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
   z-index: 1100;
   background-color: var(--white);
-  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  overflow-y: scroll;
+  overflow-y: auto;
   animation-name: fadeIn;
   animation-duration: 0.5s;
 }
@@ -275,8 +275,10 @@ section {
 }
 
 .user-account #close-account {
-  text-align: right;
-  margin-bottom: 2.5rem;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1200;
 }
 
 .user-account #close-account span {
@@ -291,10 +293,14 @@ section {
 }
 
 .user-account .user {
-  padding: 1.5rem;
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
   text-align: center;
   background-color: var(--light-bg);
   border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .user-account .user p {
@@ -306,41 +312,90 @@ section {
   color: var(--red);
 }
 
-.user-account .display-orders {
-  padding: 3rem 2rem;
-  text-align: center;
-  background-color: var(--light-bg);
-  border-radius: 0.5rem;
-  margin: 2rem 0;
+.user-menu {
   display: flex;
-  align-items: flex-start;
   justify-content: center;
-  gap: 1.5rem;
   flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
-.user-account .display-orders p {
-  padding: 1rem 2.5rem;
-  font-size: 2rem;
-  color: var(--light-color);
-  background-color: var(--white);
+.user-menu button {
+  padding: 1rem 2rem;
+  font-size: 1.6rem;
+  background-color: #ff0000;
+  color: white;
+  border: none;
   border-radius: 0.5rem;
-  box-shadow: var(--box-shadow);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.user-account .display-orders p span {
-  color: var(--red);
+.user-menu button:hover {
+  background-color: #cc0000;
+}
+
+.user-info, .user-settings, .order-history {
+  background-color: var(--light-bg);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  margin-top: 2rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.user-info h4, .user-settings h4, .order-history h4 {
+  font-size: 2.2rem;
+  color: var(--black);
+  margin-bottom: 1.5rem;
+}
+
+.user-info p, .user-settings form input, .order-item p {
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+}
+
+.user-settings form input, .user form input {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  font-size: 1.6rem;
+}
+
+.user-settings form button, .user form input[type="submit"] {
+  background-color: #ff0000;
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1.6rem;
+  transition: background-color 0.3s ease;
+}
+
+.user-settings form button:hover, .user form input[type="submit"]:hover {
+  background-color: #cc0000;
+}
+
+.order-item {
+  background-color: var(--white);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .user-account .flex {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
-  align-items: flex-start;
+  justify-content: center;
 }
 
 .user-account .flex form {
   flex: 1 1 40rem;
+  max-width: 500px;
   border-radius: 0.5rem;
   padding: 2rem;
   background-color: var(--light-bg);
@@ -362,6 +417,85 @@ section {
   padding: 1.4rem;
   font-size: 1.8rem;
   color: var(--black);
+}
+
+.logged-in-content {
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: var(--light-bg);
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Novas classes para a seção de configurações */
+.settings-field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: var(--white);
+  border-radius: 0.5rem;
+}
+
+.settings-field label {
+  flex: 0 0 120px;
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+
+.settings-field span {
+  flex: 1;
+  font-size: 1.6rem;
+  padding: 0.5rem;
+}
+
+.settings-field input {
+  flex: 1;
+  font-size: 1.6rem;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 0.3rem;
+}
+
+.settings-field button {
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 1.4rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.settings-field button:hover {
+  background-color: #45a049;
+}
+
+.user-settings form button[type="submit"] {
+  display: block;
+  width: 100%;
+  margin-top: 2rem;
+  padding: 1rem;
+  font-size: 1.8rem;
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.user-settings form button[type="submit"]:hover {
+  background-color: #cc0000;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .my-orders {

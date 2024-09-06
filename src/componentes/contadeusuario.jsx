@@ -2,16 +2,36 @@ import React, { useState, useEffect } from "react";
 
 export default function Usuario({ handleCloseModal }) {
   const [showLoginForm, setShowLoginForm] = useState(true);
-  const [formData, setFormData] = useState({ email: "", pass: "", nome: "", cpf: "", telefone: "", endereco: "", password_confirmation: "" });
+  const [formData, setFormData] = useState({
+    email: "",
+    pass: "",
+    nome: "",
+    cpf: "",
+    telefone: "",
+    endereco: "",
+    password_confirmation: ""
+  });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(null);
   const [activeSection, setActiveSection] = useState('user');
+  const [orderHistory, setOrderHistory] = useState([]);
+  const [editMode, setEditMode] = useState({
+    email: false,
+    telefone: false,
+    endereco: false,
+    password: false
+  });
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
       setIsLoggedIn(true);
-      setUserData(JSON.parse(storedUser));
+      setUserData(parsedUser);
+      setFormData(prevData => ({
+        ...prevData,
+        ...parsedUser
+      }));
     }
   }, []);
 
@@ -128,16 +148,96 @@ export default function Usuario({ handleCloseModal }) {
     try {
       const response = await fetch(`http://localhost:8080/pedidosCliente/${userData.id}`);
       const data = await response.json();
-      // Handle the order history data here
-      console.log(data);
+      setOrderHistory(data);
     } catch (error) {
       console.error("Erro ao buscar histórico de pedidos:", error);
     }
   };
 
+  const handleUpdateUserInfo = async (e) => {
+    e.preventDefault();
+    if (!userData) return;
+
+    try {
+      const response = await fetch(`http://localhost:8080/alterarCliente/${userData.id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nome: formData.nome,
+          email: formData.email,
+          cpf: formData.cpf,
+          telefone: formData.telefone,
+          endereco: formData.endereco,
+          password: formData.pass,
+          password_confirmation: formData.password_confirmation,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setUserData(prevData => ({
+          ...prevData,
+          ...formData
+        }));
+        localStorage.setItem('user', JSON.stringify({
+          ...userData,
+          ...formData
+        }));
+        alert("Informações atualizadas com sucesso!");
+        setEditMode({
+          email: false,
+          telefone: false,
+          endereco: false,
+          password: false
+        });
+      } else {
+        alert(`Erro ao atualizar informações: ${data.message || 'Erro desconhecido'}`);
+      }
+    } catch (error) {
+      console.error("Erro:", error);
+      alert("Erro ao se conectar ao servidor.");
+    }
+  };
+
+  const toggleEditMode = (field) => {
+    setEditMode(prevMode => ({
+      ...prevMode,
+      [field]: !prevMode[field]
+    }));
+  };
+
+  const renderSettingsField = (field, label, type = "text") => (
+    <div className="settings-field">
+      <label>{label}:</label>
+      {editMode[field] ? (
+        <input
+          type={type}
+          name={field}
+          value={formData[field]}
+          onChange={handleInputChange}
+          placeholder={`Digite seu ${label.toLowerCase()}`}
+        />
+      ) : (
+        <span>{userData?.[field]}</span>
+      )}
+      <button type="button" onClick={() => toggleEditMode(field)}>
+        {editMode[field] ? "Cancelar" : "Editar"}
+      </button>
+    </div>
+  );
+
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  }
+
+  const userName = userData?.nome ? capitalizeFirstLetter(userData.nome) : 'Visitante';
+
   const renderUserMenu = () => (
     <div className="user-menu">
-      <h3>Bem-vindo, {userData?.nome}</h3>
+      <h3>Bem-vindo, {userName}</h3>
       <button onClick={() => setActiveSection('user')}>Usuário</button>
       <button onClick={() => setActiveSection('settings')}>Configurações</button>
       <button onClick={() => { setActiveSection('orders'); fetchOrderHistory(); }}>Histórico de Pedidos</button>
@@ -151,7 +251,7 @@ export default function Usuario({ handleCloseModal }) {
         return (
           <div className="user-info">
             <h4>Informações do Usuário</h4>
-            <p><strong>Nome:</strong> {userData?.nome}</p>
+            <p><strong>Nome:</strong> {userName}</p>
             <p><strong>Email:</strong> {userData?.email}</p>
             <p><strong>Telefone:</strong> {userData?.telefone}</p>
             <p><strong>Endereço:</strong> {userData?.endereco}</p>
@@ -162,61 +262,39 @@ export default function Usuario({ handleCloseModal }) {
           <div className="user-settings">
             <h4>Configurações</h4>
             <form onSubmit={handleUpdateUserInfo}>
-              <input
-                type="text"
-                name="nome"
-                value={formData.nome}
-                onChange={handleInputChange}
-                placeholder="Nome"
-                required
-              />
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                placeholder="Email"
-                required
-              />
-              <input
-                type="text"
-                name="cpf"
-                value={formData.cpf}
-                onChange={handleInputChange}
-                placeholder="CPF"
-                required
-              />
-              <input
-                type="tel"
-                name="telefone"
-                value={formData.telefone}
-                onChange={handleInputChange}
-                placeholder="Telefone"
-                required
-              />
-              <input
-                type="text"
-                name="endereco"
-                value={formData.endereco}
-                onChange={handleInputChange}
-                placeholder="Endereço"
-                required
-              />
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                placeholder="Nova senha (opcional)"
-              />
-              <input
-                type="password"
-                name="password_confirmation"
-                value={formData.password_confirmation}
-                onChange={handleInputChange}
-                placeholder="Confirme a nova senha"
-              />
-              <button type="submit">Atualizar Informações</button>
+              <div className="settings-field">
+                <label>Nome:</label>
+                <span>{userData?.nome}</span>
+              </div>
+              <div className="settings-field">
+                <label>CPF:</label>
+                <span>{userData?.cpf}</span>
+              </div>
+              {renderSettingsField("email", "Email", "email")}
+              {renderSettingsField("telefone", "Telefone", "tel")}
+              {renderSettingsField("endereco", "Endereço")}
+              {editMode.password && (
+                <>
+                  <input
+                    type="password"
+                    name="pass"
+                    value={formData.pass}
+                    onChange={handleInputChange}
+                    placeholder="Nova senha"
+                  />
+                  <input
+                    type="password"
+                    name="password_confirmation"
+                    value={formData.password_confirmation}
+                    onChange={handleInputChange}
+                    placeholder="Confirme a nova senha"
+                  />
+                </>
+              )}
+              <button type="button" onClick={() => toggleEditMode("password")}>
+                {editMode.password ? "Cancelar alteração de senha" : "Alterar senha"}
+              </button>
+              <button type="submit">Salvar Alterações</button>
             </form>
           </div>
         );
@@ -225,9 +303,9 @@ export default function Usuario({ handleCloseModal }) {
           <div className="order-history">
             <h4>Histórico de Pedidos</h4>
             {orderHistory.length > 0 ? (
-              <ul>
+              <ul className="order-list">
                 {orderHistory.map((order, index) => (
-                  <li key={index}>
+                  <li key={index} className="order-item">
                     <p><strong>Pedido ID:</strong> {order.id}</p>
                     <p><strong>Data:</strong> {new Date(order.data_pedido).toLocaleString()}</p>
                     <p><strong>Total:</strong> R$ {order.valor_total.toFixed(2)}</p>
@@ -253,7 +331,7 @@ export default function Usuario({ handleCloseModal }) {
         </div>
 
         {isLoggedIn ? (
-          <div>
+          <div className="logged-in-content">
             {renderUserMenu()}
             {renderActiveSection()}
           </div>
