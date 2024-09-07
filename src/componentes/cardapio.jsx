@@ -18,7 +18,7 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
 
   const [pizzaFiltrada, setPizzaFiltrada] = useState("");
 
-  const [preco, setPreco] = useState(0);
+  const [preco, setPreco] = useState(69);
 
   precoCarrinho(preco)
   const [isModalMonte, setMontaPizza] = useState(false);
@@ -216,10 +216,7 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
             />
             <div className="name">{menuItem.name}</div>
             <div className="vermais">
-              <Link to={`pizza/${menuItem.id}`}>
-                <button>Veja mais</button>
-              </Link>
-              <button onClick={() => handlePizzaClick(menuItem)}>
+              <button onClick={() => { handlePizzaClick(menuItem); escolheTamanhoPequena(); }}>
                 Adicionar no carrinho
               </button>
             </div>

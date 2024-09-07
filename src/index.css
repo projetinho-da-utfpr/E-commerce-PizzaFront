@@ -474,11 +474,12 @@ section {
 
 .shopping-cart .box .fa-times {
   position: absolute;
-  top: 1.2rem;
-  right: 1.2rem;
-  font-size: 1.8rem;
+  top: 0.1rem;
+  right: 0.1rem;
+  font-size: 0.8rem;
   cursor: pointer;
   color: var(--red);
+  height: 2rem;
 }
 
 .shopping-cart .box .fa-times:hover {

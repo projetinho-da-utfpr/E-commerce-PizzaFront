@@ -94,7 +94,7 @@ const MonteSuaPizza = ({ modal, adicionarNoCarrinho, precoCarrinho, handleSizeCl
   }, [extrasSelecionados]);
 
   const pizza = {
-    name: `Pizza de ${saboresSelecionados.filter(sabor => sabor).join(', ')}`,
+    name: `Pizza de ${saboresSelecionados.filter(sabor => sabor).join(', ')} com ${extrasSelecionados.map(extra => extra.extra).join(', ')}`,
     extras: extrasSelecionados.map(extra => extra.extra).join(', '),
   };
 
