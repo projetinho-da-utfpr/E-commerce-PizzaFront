@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { PizzaContext } from '../context/pizzascontext';
 import './pizza.css';
+import { set } from 'react-hook-form';
 
-const MonteSuaPizza = ({ modal, adicionarNoCarrinho, precoCarrinho, handleSizeClick}) => {
+const MonteSuaPizza = ({ modal, adicionarNoCarrinho, precoCarrinho, handleSizeClick }) => {
   const { pizzas } = useContext(PizzaContext);
   const [sabores, setSabores] = useState([]);
   const [nomeSabor, setNomeSabor] = useState([]);
@@ -11,8 +12,15 @@ const MonteSuaPizza = ({ modal, adicionarNoCarrinho, precoCarrinho, handleSizeCl
   const [extrasSelecionados, setExtrasSelecionados] = useState([]);
   const [extras, setExtras] = useState([]);
   const [quantidade, setQuantidade] = useState(1);
-  const [tamanho, setTamanho] = useState('Médio');
+  const [tamanho, setTamanho] = useState('Pequena');
   const [preco, setPreco] = useState(60);
+  const [precoExtra, setPrecoExtra] = useState(0);
+  const [confirma, setConfirma] = useState(false);
+  const [precoReal, setPrecoReal] = useState(0);
+
+  const abreModal = () => {
+    setConfirma(!confirma);
+  }
 
   const fetchExtras = async () => {
     const response = await fetch('http://localhost:8080/extras/1');
@@ -30,7 +38,20 @@ const MonteSuaPizza = ({ modal, adicionarNoCarrinho, precoCarrinho, handleSizeCl
 
   const handleTamanhoChange = (e) => {
     setTamanho(e.target.value);
+    precoTamanho(e.target.value);
   };
+
+  function precoTamanho(tamanho) {
+    if (tamanho === "Pequena") {
+      setPreco(60);
+    }
+    if (tamanho === "Médio") {
+      setPreco(75);
+    }
+    if (tamanho === "Grande") {
+      setPreco(85);
+    }
+  }
 
   useEffect(() => {
     fetchExtras();
@@ -59,85 +80,111 @@ const MonteSuaPizza = ({ modal, adicionarNoCarrinho, precoCarrinho, handleSizeCl
       const novosExtras = extrasSelecionados.filter(item => item.id !== extra.id);
       setExtrasSelecionados(novosExtras);
     }
+
+
   };
 
   const calcularPreco = () => {
-    let preco = 60;
-    extrasSelecionados.forEach(extra => {
-      preco += extra.preco;
-    });
-    setPreco(preco);
+    const qtdeextras = extrasSelecionados.length;
+    setPrecoExtra(qtdeextras * 5);
   };
 
-  const pizza = {
-    name: saboresSelecionados.filter(Boolean).join(', '), 
-    extras: extrasSelecionados.map(extra => extra.extra).join(', '),
-};
+  useEffect(() => {
+    calcularPreco();
+  }, [extrasSelecionados]);
 
-const handleAddToCart = () => {
-    adicionarNoCarrinho({ ...pizza, quantity: quantidade });
+  const pizza = {
+    name: `Pizza de ${saboresSelecionados.filter(sabor => sabor).join(', ')}`,
+    extras: extrasSelecionados.map(extra => extra.extra).join(', '),
+  };
+
+  const handleAddToCart = () => {
+    adicionarNoCarrinho({ ...pizza, quantity: quantidade, image: '/images/monte-sua-pizza-card.png' });
     setQuantidade(1);
     modal();
   };
-  precoCarrinho(80)
+  precoCarrinho(precoReal);
   handleSizeClick(tamanho)
 
-    return (
-        <div className="modal">
-            <div className="modal-content">
-                <button onClick={modal} className="close">X</button>
-                <h2>Monte sua pizza</h2>
-                <form>
-                    <h3>Tamanho da pizza</h3>
-                    <select onChange={handleTamanhoChange}>
-                        <option value="Pequena">Pequena</option>
-                        <option value="Médio">Média</option>
-                        <option value="Grande">Grande</option>
-                    </select>
-                    <h3>Quantidade de sabores</h3>
-                    <select onChange={handleQtdSaboresChange}>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                    </select>
-                    <label>Escolha o sabor do recheio:</label>
-                    {Array.from({ length: qtdSabores }).map((_, index) => (
-                        <select key={index} onChange={(e) => handleSaborChange(index, e.target.value)}>
-                            {nomeSabor.map(sabor => <option key={sabor}>{sabor}</option>)}
-                        </select>
-                    ))}
 
-                    {saboresSelecionados.map((sabor, index) => <p key={index}>{sabor}</p>)}
+  const precoConfirmado = () => {
+    setPrecoReal(preco + precoExtra);
+  }
+  return (
+    <div className="modal">
+      <div className="modal-content">
+        <button onClick={modal} className="close">X</button>
+        <h2>Monte sua pizza</h2>
+        <form>
+          <h3>Tamanho da pizza</h3>
+          <select onChange={handleTamanhoChange}>
+            <option value="Pequena">Pequena</option>
+            <option value="Médio">Média</option>
+            <option value="Grande">Grande</option>
+          </select>
+          <h3>Quantidade de sabores</h3>
+          <select onChange={handleQtdSaboresChange}>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+          </select>
+          <label>Escolha o sabor do recheio:</label>
+          {Array.from({ length: qtdSabores }).map((_, index) => (
+            <select key={index} onChange={(e) => handleSaborChange(index, e.target.value)}>
+              {nomeSabor.map(sabor => <option key={sabor}>{sabor}</option>)}
+            </select>
+          ))}
 
-                    <h3>Extras:</h3>
-                    <div className="extras-container">
-                        {extras.map(extra => (
-                            <label key={extra.id}>
-                                <input
-                                    onClick={calcularPreco}
-                                    type="checkbox"
-                                    onChange={(e) => handleExtraChange(extra, e.target.checked)}
-                                    checked={extrasSelecionados.includes(extra)}
-                                    disabled={extrasSelecionados.length >= 3 && !extrasSelecionados.includes(extra)}
-                                />
-                                {extra.extra} R${extra.preco}
-                            </label>
-                        ))}
-                    </div>
+          {/* {saboresSelecionados.map((sabor, index) => <p key={index}>{sabor}</p>)} */}
 
-                    {extrasSelecionados.length >= 3 && <p>Você só pode escolher até 3 extras</p>}
+          <h3>Extras:</h3>
+          <div className="extras-container">
+            {extras.map(extra => (
+              <label key={extra.id}>
 
-                </form>
+                <input
+                  type="checkbox"
+                  onChange={(e) => {
+                    handleExtraChange(extra, e.target.checked);
+                  }}
+                  checked={extrasSelecionados.includes(extra)}
+                  disabled={extrasSelecionados.length >= 3 && !extrasSelecionados.includes(extra)}
+                />
+                {extra.extra} R${extra.preco}
+              </label>
+            ))}
+          </div>
 
-                <div className="quantidade-carrinho">
-                    <input type="number" value={quantidade} onChange={handleQuantidadeChange} min="1" />
+          {extrasSelecionados.length >= 3 && <p>Adicione até 3 extras</p>}
 
-                    <button type="button" onClick={handleAddToCart}>Adicionar ao Carrinho</button>
-                </div>
+        </form>
 
-            </div>
+        <div className="quantidade-carrinho">
+
+          <input type="number" value={quantidade} onChange={handleQuantidadeChange} min="1" />
+
+          <button type="button" onClick={() => { abreModal(); precoConfirmado(); }}>Adicionar ao Carrinho</button>
         </div>
-    );
+        <div className="preco-extras">
+        <p>Preço quantidade: R$ {preco * quantidade}</p>
+        <p>Preço Extras: R${precoExtra * quantidade}</p>
+        </div>
+        {confirma && (
+        <div className="modal2">
+          <div className="modal-content2">
+            <h1>Confirmação de pedido</h1>
+            <p>Nome: {quantidade} x {pizza.name} | {tamanho}</p>
+            <p>Extras: {quantidade} x {pizza.extras}</p>
+            <p>Preço Total: R$ {precoReal * quantidade} </p>
+            <button onClick={() => {abreModal()}}>Cancelar</button>
+            <button onClick={() => { handleAddToCart(); setPrecoReal(0); }}>Confirmar</button>
+          </div>
+        </div>
+      )}
+
+      </div>
+    </div>
+  );
 };
 
 export default MonteSuaPizza;

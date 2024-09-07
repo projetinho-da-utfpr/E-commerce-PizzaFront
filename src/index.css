@@ -2,115 +2,116 @@
 
 /* pizza-details.css */
 
+/* Estilo para o modal */
 .pizza-details {
-   width: 80%;
-   margin: 0 auto;
-   padding: 20px;
-   background-color: #fff;
-   border-radius: 10px;
-   box-shadow: 50px 20px 5px rgba(0, 0, 0, 0.1);
-   text-align: center;
-   position: fixed;
-   top: 54%;
-   left: 50%;
-   transform: translate(-50%, -50%);
-   z-index: 3;
-   overflow-y: scroll;
-   animation-name: fadeIn;
-   animation-duration: 0.5s;
- }
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 400px;
+  margin: auto;
+  z-index: 1001;
+  position: relative;
+}
 
+/* Estilo para o botão de fechar */
+.close-button-details {
+  background-color: #ff4d4d;
+  border: none;
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  float: right;
+}
+
+.close-button-details:hover {
+  background-color: #ff1a1a;
+}
+
+/* Estilo para o título */
 .pizza-details h1 {
-  font-size: 3em;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.pizza-details .imagem {
+  width: 100%;
+  height: auto;
+}
+
+/* Estilo para a imagem */
+.pizza-details .imagem img {
+  width: 100%;
+
+  border-radius: 8px;
+}
+
+/* Estilo para o preço */
+.price {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+/* Estilo para a descrição */
+.description {
+  font-size: 16px;
   margin-bottom: 20px;
 }
 
-.pizza-details img {
-  width: 100%;
-  max-height: 300px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-
-.pizza-details p {
-  font-size: 1.2em;
-  line-height: 1.6;
-}
-
-.pizza-details .price {
-  font-size: 5em;
-  font-weight: bold;
-}
-
-.pizza-details .price span {
-  color: #f00;
-}
-
-.pizza-details button {
-  padding: 15px 30px;
-  background-color: #ff0000;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: 2em;
-}
-
-.pizza-details button:hover {
-  background-color: #000000;
-}
-
-.pizza-details label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-  font-size: 3em;
-}
-
-.pizza-details select {
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1em;
-}
-
-.pizza-details .descricao {
-  font-style: italic;
-}
-
+/* Estilo para os botões de tamanho */
 .size-buttons {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
-  margin: 10px;
 }
 
 .size-button {
-  padding: 2px 5px;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  background-color: #ff4d4d;;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: 2.5em;
+  
+}
+
+.size-button.active {
+  background-color: #000;
+  color: white;
 }
 
 .size-button:hover {
-  background-color: #e0e0e0;
+  background-color: #f80000;
 }
 
+/* Estilo para a quantidade */
 .qty {
-  width: 100%;
-  height: 50px;
-  padding: 10px;
-  margin: 10px 0;
-  border: 5px solid #e74c3c;
-  border-radius: 5px;
-  font-size: 2em;
-  text-align: center;
+  padding: 5px;
+  margin-top: 10px;
 }
+
+/* Estilo para o botão */
+button {
+  background-color: #000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+}
+
+
+
+/* Estilo para o fundo escurecido */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
 
 :root {
   --red: #e74c3c;
@@ -1100,6 +1101,35 @@ section {
   .order form .flex .inputBox {
     width: 100%;
   }
+}
+
+.monte-a-sua-pizza {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background-color: #bab4b4; /* Cor de fundo do contêiner */
+  padding: 50px 0; /* Espaçamento interno do contêiner */
+}
+
+.monte-a-sua-pizza h1{
+  font-size: 3em;
+  margin-bottom: 20px;
+}
+
+.monte-a-sua-pizza button {
+  background-color: #ff0000; /* Cor de fundo do botão */
+  color: white; /* Cor do texto do botão */
+  border: none; /* Remover borda */
+  padding: 15px 30px; /* Espaçamento interno do botão */
+  font-size: 16px; /* Tamanho da fonte */
+  border-radius: 5px; /* Bordas arredondadas */
+  cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
+  transition: background-color 0.3s ease; /* Transição suave para a cor de fundo */
+}
+
+.monte-a-sua-pizza button:hover {
+  background-color: #000; /* Cor de fundo ao passar o mouse */
 }
 
 @media (max-width: 450px) {

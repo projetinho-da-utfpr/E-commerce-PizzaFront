@@ -43,9 +43,9 @@ export default function Paginainicial() {
     image: `${baseURL}${pizza.imagem}`,
     descricao: pizza.ingredientes,
   }));
-  
+
   console.log(produtos);
-  
+
 
   const handleNext = () => {
     setCurrentSlide((prevSlide) =>
@@ -77,31 +77,31 @@ export default function Paginainicial() {
   // REMOVER PRODUTO DO CARRINHO
   function removerCarrinho(uniqueId) {
     const item = carrinho.find((item) => item.uniqueId === uniqueId);
-    
+
     if (item) {
       const precoCarrinho = Number(item.preco);
       const quantidade = item.quantity;
       const valorRemover = precoCarrinho * quantidade;
-  
+
       // Atualizar o preço total, garantindo que não fique negativo
       setPrecototal((prevPrecototal) => Math.max(0, prevPrecototal - valorRemover));
-  
+
       // Remover o item do carrinho
       const novoCarrinho = carrinho.filter((item) => item.uniqueId !== uniqueId);
       setCarrinho(novoCarrinho);
     }
   }
 
-    // Altera o tamanho da pizza
-    const handleSizeClick = (size) => {
-      setSize(size);
-    };
+  // Altera o tamanho da pizza
+  const handleSizeClick = (size) => {
+    setSize(size);
+  };
 
-    const [showMontarPizza, setShowMontarPizza] = useState(false);
+  const [showMontarPizza, setShowMontarPizza] = useState(false);
 
-    const handleMontarPizza = () => {
-      setShowMontarPizza(!showMontarPizza);
-    }
+  const handleMontarPizza = () => {
+    setShowMontarPizza(!showMontarPizza);
+  }
 
   return (
     <>
@@ -117,12 +117,15 @@ export default function Paginainicial() {
       {/* ### SOBRE NÓS ### */}
       <Sobrenos />
       {/* ### CARDÁPIO ### */}
-      <Cardapio menuItems={produtos} adicionarNoCarrinho={adicionarCarrinho} handleSizeClick={handleSizeClick} precoCarrinho={setPrecoCarrinho}   />
+      <Cardapio menuItems={produtos} adicionarNoCarrinho={adicionarCarrinho} handleSizeClick={handleSizeClick} precoCarrinho={setPrecoCarrinho} />
       {/* ### MONTE SUA PIZZA ### */}
-      <button onClick={handleMontarPizza}>Monte sua pizza !</button>
+      <div className="monte-a-sua-pizza">
+        <h1>Customize a sua pizza do jeito que você gosta!</h1>
+        <button onClick={handleMontarPizza}>Monte sua pizza !</button>
+      </div>
       {showMontarPizza && <MonteSuaPizza modal={handleMontarPizza} handleSizeClick={handleSizeClick} adicionarNoCarrinho={adicionarCarrinho} precoCarrinho={setPrecoCarrinho} />}
       {/* ### PEDIDO ### */}
-      <Pedido carrinho={carrinho}/>
+      <Pedido carrinho={carrinho} />
 
       {/* ### PERGUNTAS E RESPOSTAS ### */}
       <Perguntas />

@@ -114,6 +114,7 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
   return (
     <section id="menu" className={`menu ${showAllItems ? "expanded" : ""}`}>
       {isModalOpen && selectedPizza && (
+        <div class="modal-overlay">
         <div className="pizza-details">
           <button onClick={closeModal} className="close-button-details">
             Fechar
@@ -125,7 +126,7 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
           </div>
 
           <div className="price">
-            <p>Preço: R$<span>{preco}</span></p>
+            <p>Preço: R$<span>{preco * quantity}</span></p>
           </div>
 
           <div className="description">
@@ -173,6 +174,7 @@ function Cardapio({ menuItems, adicionarNoCarrinho, handleSizeClick, precoCarrin
             className="qty"
             name="qty"
           />
+        </div>
         </div>
       )}
       <h1 className="heading">Cardápio</h1>
