@@ -27,7 +27,6 @@ const Navbar = ({carrinho, precoTotal, removercarrinho, handleQuantityChange, si
           <a href="#home">Menu</a>
           <a href="#about">Sobre nós</a>
           <a href="#menu">Cardápio</a>
-          <a href="#order">Pedidos</a>
           <a href="#faq">Perguntas e respostas</a>
         </nav>
         <div className="icons">

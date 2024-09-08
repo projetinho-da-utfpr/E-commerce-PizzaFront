@@ -107,15 +107,20 @@
   transition: background-color 0.3s ease;
 }
 
-
-.close-button-details {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: transparent;
+.pizza-details .close-button-details {
+  width: 10%;
+  background-color: #ff0000;
+  color: #fff;
   border: none;
-  font-size: 20px;
   cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  width: 10%;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }
 
 @media (max-width: 768px) {
@@ -498,6 +503,50 @@ section {
   to { opacity: 1; }
 }
 
+.order-history {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.order-history h4 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.order-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.order-item input {
+  flex: 1;
+  font-size: 1.6rem;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 0.3rem;
+}
+
+
+.order-item p {
+  margin: 0 0 10px;
+}
+
+.order-item p strong {
+  display: inline-block;
+  width: 150px;
+}
+
+.order-item:last-child {
+  margin-bottom: 0;
+}
+
 .my-orders {
   position: fixed;
   top: 0;
@@ -693,7 +742,6 @@ section {
   background-color: var(--black);
   color: var(--white);
 }
-
 
 @keyframes slideIn {
   from {
@@ -1188,19 +1236,6 @@ section {
   color: var(--red);
 }
 
-.close-button-details {
-  background-color: var(--red);
-  color: var(--white);
-  border: none;
-  padding: 1rem 2rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  font-size: 2rem;
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-}
-
 .Registro {
   cursor: pointer;
   background-color: var(--red);
@@ -1265,6 +1300,35 @@ section {
   .order form .flex .inputBox {
     width: 100%;
   }
+}
+
+.monte-a-sua-pizza {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background-color: #bab4b4; /* Cor de fundo do contêiner */
+  padding: 50px 0; /* Espaçamento interno do contêiner */
+}
+
+.monte-a-sua-pizza h1{
+  font-size: 3em;
+  margin-bottom: 20px;
+}
+
+.monte-a-sua-pizza button {
+  background-color: #ff0000; /* Cor de fundo do botão */
+  color: white; /* Cor do texto do botão */
+  border: none; /* Remover borda */
+  padding: 15px 30px; /* Espaçamento interno do botão */
+  font-size: 16px; /* Tamanho da fonte */
+  border-radius: 5px; /* Bordas arredondadas */
+  cursor: pointer; /* Cursor de ponteiro ao passar sobre o botão */
+  transition: background-color 0.3s ease; /* Transição suave para a cor de fundo */
+}
+
+.monte-a-sua-pizza button:hover {
+  background-color: #000; /* Cor de fundo ao passar o mouse */
 }
 
 @media (max-width: 450px) {

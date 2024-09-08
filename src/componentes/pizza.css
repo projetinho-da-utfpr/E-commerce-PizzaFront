@@ -1,19 +1,24 @@
 /* Estilo do modal */
-.modal-monte {
+.modal {
     display: flex;
-    position: fixed; /* Fixa o modal na tela */
+    position: fixed;
+    /* Fixa o modal na tela */
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    z-index: 10000; /* Garante que o modal fique acima de outros elementos */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fundo semitransparente */
+    justify-content: center;
+    /* Centraliza horizontalmente */
+    align-items: center;
+    /* Centraliza verticalmente */
+    z-index: 10000;
+    /* Garante que o modal fique acima de outros elementos */
 }
 
 /* Estilo do conteúdo do modal */
-.modal-content-monte {
+.modal-content {
     background-color: white;
     padding: 20px;
     border-radius: 5px;
@@ -21,22 +26,25 @@
     max-width: 500px;
     width: 100%;
     height: 80%;
-    z-index: 10001; /* Garante que o conteúdo do modal fique acima do fundo */
+    z-index: 10001;
+    /* Garante que o conteúdo do modal fique acima do fundo */
 }
 
-.modal-content-monte h2{
+.modal-content h2 {
     color: #000;
     font-size: 2em;
     font-weight: bold;
     text-align: center;
 }
 
-.modal-content-monte .close {
+.modal-content .close {
     top: 10px;
     right: 10px;
     font-size: 1.5em;
-    color: #fff; /* Cor do texto */
-    background-color: #ff6347; /* Cor de fundo */
+    color: #fff;
+    /* Cor do texto */
+    background-color: #ff6347;
+    /* Cor de fundo */
     border: none;
     border-radius: 50%;
     width: 30px;
@@ -47,8 +55,9 @@
     cursor: pointer;
 }
 
-.modal-content-monte .close:hover {
-    background-color: #ff4500; /* Cor de fundo ao passar o mouse */
+.modal-content .close:hover {
+    background-color: #ff4500;
+    /* Cor de fundo ao passar o mouse */
 }
 
 @keyframes slide-down {
@@ -56,6 +65,7 @@
         transform: translateY(-50px);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -87,7 +97,9 @@ h3 {
     color: #555;
 }
 
-select, input[type="checkbox"], input[type="number"] {
+select,
+input[type="checkbox"],
+input[type="number"] {
     margin-bottom: 10px;
 }
 
@@ -142,8 +154,10 @@ input[type="number"] {
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 5px;
-    margin-bottom: 0; /* Remover margem inferior */
-    vertical-align: middle; /* Alinhar verticalmente */
+    margin-bottom: 0;
+    /* Remover margem inferior */
+    vertical-align: middle;
+    /* Alinhar verticalmente */
 }
 
 .button-monte {
@@ -154,17 +168,105 @@ input[type="number"] {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
-    vertical-align: middle; /* Alinhar verticalmente */
+    vertical-align: middle;
+    /* Alinhar verticalmente */
 }
 
 .button-monte:hover {
     background-color: #ff4500;
 }
 
-.monte-pizza-img {
+.button-monte.close {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+}
+
+.quantidade-carrinho p {
+    margin: 0;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+
+.modal2 {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    max-height: 370px;
-    object-fit: cover;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content2 {
+    background: white;
+    padding: 50px;
+    border-radius: 5px;
+    text-align: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.modal-content2 button {
+    background-color: #ff6347;
+    color: white;
+    border: none;
+}
+
+.modal-content2 button {
+    padding: 15px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-left: 10px;
+    display: inline-block;
+    font-weight: bold;
+    text-align: center;
+}
+
+
+.modal-content2 p {
+    color: #000;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+}
+
+.preco-extras {
+    background-color: #f8f8f8;
+    /* Cor de fundo do contêiner */
+    padding: 20px;
+    /* Espaçamento interno do contêiner */
     border-radius: 10px;
-    margin-bottom: 15px;
-  }
+    /* Bordas arredondadas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Sombra para o contêiner */
+    margin: 20px 0;
+    /* Espaçamento externo */
+    text-align: center;
+    /* Centralizar o texto */
+}
+
+.preco-extras p {
+    margin: 10px 0;
+    /* Espaçamento entre os parágrafos */
+    font-size: 1.2em;
+    /* Tamanho da fonte */
+    color: #333;
+    /* Cor do texto */
+}
+
+.preco-extras-quantidade {
+    font-weight: bold;
+    /* Negrito para o texto da quantidade */
+}
+
+.preco-extras-extras {
+    font-weight: bold;
+    /* Negrito para o texto dos extras */
+    color: #ff6347;
+    /* Cor diferente para destacar os extras */
+}

@@ -8,6 +8,7 @@ import Contatos from "../../componentes/contato";
 import Navbar from "../../componentes/navbar";
 import { PizzaContext } from "../../context/pizzascontext";
 import { v4 as uuidv4 } from 'uuid';
+import MonteSuaPizza from "../../componentes/montesuapizza";
 
 export default function Paginainicial() {
   const { pizzas } = useContext(PizzaContext); // DADOS DOS PRODUTOS
@@ -105,27 +106,40 @@ export default function Paginainicial() {
       setSize(size);
     };
 
-  return (
-    <>
-      {/* ### CABEÇALHO ### */}
-      <Navbar handleCartClick={handleCartClick} carrinho={carrinho} precoTotal={precototal} removercarrinho={removerCarrinho} handleQuantityChange={handleQuantityChange} size={size} precoCarrinho={precoCarrinho} />
-      {/* ### HOME COM AS PIZZAS ### */}
-      <Menu
-        slides={slides}
-        currentSlide={currentSlide}
-        handlePrev={handlePrev}
-        handleNext={handleNext}
-      />
-      {/* ### SOBRE NÓS ### */}
-      <Sobrenos />
-      {/* ### CARDÁPIO ### */}
-      <Cardapio menuItems={produtos} adicionarNoCarrinho={adicionarCarrinho} handleSizeClick={handleSizeClick} precoCarrinho={setPrecoCarrinho}   />
-      {/* ### PEDIDO ### */}
-      <Pedido carrinho={carrinho}/>
-      {/* ### PERGUNTAS E RESPOSTAS ### */}
-      <Perguntas />
-      {/* ### CONTATO ### */}
-      <Contatos />
-    </>
-  );
-}
+    const [showMontarPizza, setShowMontarPizza] = useState(false);
+
+    const handleMontarPizza = () => {
+      setShowMontarPizza(!showMontarPizza);
+    }
+
+    return (
+      <>
+        {/* ### CABEÇALHO ### */}
+        <Navbar handleCartClick={handleCartClick} carrinho={carrinho} precoTotal={precototal} removercarrinho={removerCarrinho} handleQuantityChange={handleQuantityChange} size={size} precoCarrinho={precoCarrinho} />
+        {/* ### HOME COM AS PIZZAS ### */}
+        <Menu
+          slides={slides}
+          currentSlide={currentSlide}
+          handlePrev={handlePrev}
+          handleNext={handleNext}
+        />
+        {/* ### SOBRE NÓS ### */}
+        <Sobrenos />
+        {/* ### CARDÁPIO ### */}
+        <Cardapio menuItems={produtos} adicionarNoCarrinho={adicionarCarrinho} handleSizeClick={handleSizeClick} precoCarrinho={setPrecoCarrinho} />
+        {/* ### MONTE SUA PIZZA ### */}
+        <div className="monte-a-sua-pizza">
+          <h1>Customize a sua pizza do jeito que você gosta!</h1>
+          <button onClick={handleMontarPizza}>Monte sua pizza!</button>
+        </div>
+        {showMontarPizza && <MonteSuaPizza modal={handleMontarPizza} handleSizeClick={handleSizeClick} adicionarNoCarrinho={adicionarCarrinho} precoCarrinho={setPrecoCarrinho} />}
+        {/* ### PEDIDO ### */}
+        <Pedido carrinho={carrinho} />
+  
+        {/* ### PERGUNTAS E RESPOSTAS ### */}
+        <Perguntas />
+        {/* ### CONTATO ### */}
+        <Contatos />
+      </>
+    );
+  }

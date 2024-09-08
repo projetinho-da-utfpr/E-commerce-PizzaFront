@@ -146,9 +146,21 @@ export default function Usuario({ handleCloseModal }) {
   const fetchOrderHistory = async () => {
     if (!userData) return;
     try {
-      const response = await fetch(`http://localhost:8080/pedidosCliente/${userData.id}`);
+      const response = await fetch(`http://localhost:8080/pedidosCliente/${userData.id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
       const data = await response.json();
-      setOrderHistory(data);
+      if (data.message === "Pedidos encontrados com sucesso!") {
+        setOrderHistory(data.data || []); // Garante que seja um array, mesmo se não houver dados
+      } else {
+        console.error("Erro na resposta do servidor:", data.message);
+      }
     } catch (error) {
       console.error("Erro ao buscar histórico de pedidos:", error);
     }
@@ -266,10 +278,6 @@ export default function Usuario({ handleCloseModal }) {
                 <label>Nome:</label>
                 <span>{userData?.nome}</span>
               </div>
-              <div className="settings-field">
-                <label>CPF:</label>
-                <span>{userData?.cpf}</span>
-              </div>
               {renderSettingsField("email", "Email", "email")}
               {renderSettingsField("telefone", "Telefone", "tel")}
               {renderSettingsField("endereco", "Endereço")}
@@ -302,20 +310,17 @@ export default function Usuario({ handleCloseModal }) {
         return (
           <div className="order-history">
             <h4>Histórico de Pedidos</h4>
-            {orderHistory.length > 0 ? (
-              <ul className="order-list">
-                {orderHistory.map((order, index) => (
-                  <li key={index} className="order-item">
-                    <p><strong>Pedido ID:</strong> {order.id}</p>
-                    <p><strong>Data:</strong> {new Date(order.data_pedido).toLocaleString()}</p>
-                    <p><strong>Total:</strong> R$ {order.valor_total.toFixed(2)}</p>
-                    <p><strong>Status:</strong> {order.status}</p>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>Nenhum pedido encontrado.</p>
-            )}
+            {orderHistory && orderHistory.length > 0 ? (
+              orderHistory.map((pedido, index) => (
+              <div key={index}>
+                  <p><strong>ID do Pedido:</strong> {index + 1}</p>
+                  <p><strong>Valor:</strong> R${pedido.total}</p>
+                  <p><strong>Detalhes do Pedido: </strong>{pedido.sabores}</p>
+          </div>
+        ))
+        ) : (
+            <p>Sem pedidos para mostrar.</p>
+          )}
           </div>
         );
       default:
