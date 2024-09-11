@@ -221,6 +221,91 @@ export default function Usuario({ handleCloseModal }) {
     }));
   };
 
+  const refazerPedido = async (pedidoAnterior) => {
+    console.log('Dados do pedido anterior:', pedidoAnterior);
+  
+    const medidasMap = {
+      "Pequena": 1,
+      "Média": 2,
+      "Grande": 3,
+      "Metro": 4
+    };
+  
+    const produtoMap = {
+      "Pizza de Frango": 1,
+      "Pizza de Calabresa ": 2,
+      "Pizza Portuguesa": 3,
+      "Pizza de Kinder Bueno": 4,
+    };
+  
+    const getIdFromName = (name) => {
+      if (produtoMap.hasOwnProperty(name)) {
+        console.log(`ID ${produtoMap[name]} encontrado para "${name}"`);
+        return produtoMap[name];
+      }
+      console.log(`Não foi possível encontrar ID para "${name}", usando o nome completo`);
+      return name;
+    };
+  
+    const toNumber = (value) => {
+      const num = Number(value);
+      return isNaN(num) ? 0 : num;
+    };
+  
+    const toNumberArray = (value) => {
+      if (Array.isArray(value)) {
+        return value.map(item => getIdFromName(item));
+      }
+      if (typeof value === 'string') {
+        return [getIdFromName(value)];
+      }
+      return [];
+    };
+  
+    const orderData = {
+      cliente_id: userData.id,
+      status: pedidoAnterior.status || 'pendente',
+      endereco: userData.endereco,
+      quantidade: toNumber(pedidoAnterior.quantidade),
+      total: parseFloat(pedidoAnterior.total).toFixed(2),
+      produtos: toNumberArray(pedidoAnterior.produtos),
+      medida: medidasMap[pedidoAnterior.medida],
+      sabores: toNumberArray(pedidoAnterior.sabores),
+    };
+  
+    console.log('Preparando para enviar pedido para a API:', orderData);
+  
+    try {
+      console.log('Iniciando requisição para http://localhost:8080/pedidos');
+      const response = await fetch('http://localhost:8080/pedidos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData)
+      });
+  
+      console.log('Resposta recebida. Status:', response.status);
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Detalhes da resposta de erro:', errorData);
+        throw new Error(`Erro ao enviar o pedido: ${response.status} ${response.statusText}`);
+      }
+  
+      const responseData = await response.json();
+      console.log('Pedido enviado com sucesso. Resposta:', responseData);
+      return responseData;
+    } catch (error) {
+      console.error('Erro detalhado ao enviar pedido:', error);
+      if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+        console.error('Parece que o servidor não está acessível. Verifique se o backend está rodando.');
+      }
+      throw error;
+    }
+  };
+  
+
   const renderSettingsField = (field, label, type = "text") => (
     <div className="settings-field">
       <label>{label}:</label>
@@ -250,11 +335,14 @@ export default function Usuario({ handleCloseModal }) {
   const renderUserMenu = () => (
     <div className="user-menu">
       <h3>Bem-vindo, {userName}</h3>
+      <div className="user-menu-button">
       <button onClick={() => setActiveSection('user')}>Usuário</button>
       <button onClick={() => setActiveSection('settings')}>Configurações</button>
       <button onClick={() => { setActiveSection('orders'); fetchOrderHistory(); }}>Histórico de Pedidos</button>
       <button onClick={handleLogout}>Sair</button>
+      </div>
     </div>
+    
   );
 
   const renderActiveSection = () => {
@@ -306,23 +394,24 @@ export default function Usuario({ handleCloseModal }) {
             </form>
           </div>
         );
-      case 'orders':
-        return (
-          <div className="order-history">
-            <h4>Histórico de Pedidos</h4>
-            {orderHistory && orderHistory.length > 0 ? (
-              orderHistory.map((pedido, index) => (
-              <div key={index}>
-                  <p><strong>ID do Pedido:</strong> {index + 1}</p>
-                  <p><strong>Valor:</strong> R${pedido.total}</p>
-                  <p><strong>Detalhes do Pedido: </strong>{pedido.sabores}</p>
-          </div>
-        ))
-        ) : (
-            <p>Sem pedidos para mostrar.</p>
-          )}
-          </div>
-        );
+        case 'orders':
+          return (
+            <div className="order-history">
+              <h4>Histórico de Pedidos</h4>
+              {orderHistory && orderHistory.length > 0 ? (
+                orderHistory.map((pedido, index) => (
+                  <div key={index} className="order-item">
+                    <p><strong>Detalhes do Pedido:</strong> {pedido.sabores}</p>
+                    <p><strong>Valor:</strong> R${pedido.total}</p>
+                    <button onClick={() => refazerPedido(pedido)}>Refazer Pedido</button>
+                  </div>
+                ))
+
+              ) : (
+                <p className="no-orders">Sem pedidos para mostrar.</p>
+              )}
+            </div>
+          );
       default:
         return null;
     }

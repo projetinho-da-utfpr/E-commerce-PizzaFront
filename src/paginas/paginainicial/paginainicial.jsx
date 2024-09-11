@@ -9,6 +9,7 @@ import Navbar from "../../componentes/navbar";
 import { PizzaContext } from "../../context/pizzascontext";
 import { v4 as uuidv4 } from 'uuid';
 import MonteSuaPizza from "../../componentes/montesuapizza";
+import { useUser } from '../../context/usercontext';
 
 export default function Paginainicial() {
   const { pizzas } = useContext(PizzaContext); // DADOS DOS PRODUTOS
@@ -16,6 +17,7 @@ export default function Paginainicial() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [size, setSize] = useState("Pequena");
   const [precoCarrinho, setPrecoCarrinho] = useState(0);
+  const { userData } = useUser();
 
   const [precototal, setPrecototal] = useState(0);
 
@@ -134,7 +136,7 @@ export default function Paginainicial() {
         </div>
         {showMontarPizza && <MonteSuaPizza modal={handleMontarPizza} handleSizeClick={handleSizeClick} adicionarNoCarrinho={adicionarCarrinho} precoCarrinho={setPrecoCarrinho} />}
         {/* ### PEDIDO ### */}
-        <Pedido carrinho={carrinho} />
+        <Pedido carrinho={carrinho} userData={userData} />
   
         {/* ### PERGUNTAS E RESPOSTAS ### */}
         <Perguntas />

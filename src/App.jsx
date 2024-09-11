@@ -1,13 +1,15 @@
 import React from 'react'
 import {Routes, Route } from 'react-router-dom';
 import Paginainicial from './paginas/paginainicial/paginainicial';
-
+import { UserProvider } from './context/usercontext';
 
 const App = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Paginainicial />} />
-    </Routes>
+    <UserProvider>
+      <Routes>
+        <Route path="/" element={<Paginainicial />} />
+      </Routes>
+    </UserProvider>
   )
 }
 
